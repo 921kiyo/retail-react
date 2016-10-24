@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" media="screen and (max-width: 400px)" href="css/below400.css">
+  <link rel="stylesheet" media="screen and (min-width: 400px) and (max-width: 550px)" href="css/over400below550.css">
+  <link rel="stylesheet" media="screen and (min-width: 550px)" href="css/over550.css">
+  <link rel="stylesheet" media="screen and (min-width: 915px)" href="css/over915.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+  <script type="text/javascript" src="bundle.js"></script>
+  <title>Clothing retailer</title>
+</head>
+<body>
+  <div class="container">
+    <div class="box header">
+    <div id="nav-menu">
+      <span id='menu-button'><i class="fa fa-bars" aria-hidden="true"></i></span>
+    </div>
+      <button id="cart">Cart</button>
+      <p id="total-quantity"></p>
+      <p id="total-price"></p>
+    </div>
+    <!-- Hamburger menu for mobile devices -->
+    <div class="menu">
+      <p class="select" id="women-footwear">Women’s footwear</p>
+      <p class="select" id="men-footwear">Men’s footwear</p>
+      <p class="select" id="women-casualwear">Women’s casualwear</p>
+      <p class="select" id="men-casualwear">Men’s casualwear</p>
+      <p class="select" id="women-formalwear">Women’s formalwear</p>
+      <p class="select" id="men-formalwear">Man’s formalwear</p>
+    </div>
+    <div class="box main-display" id="main-display">
+        <ul id="item-ul">
+        </ul>
+    </div>
+  </div>
+</body>
+</html>
