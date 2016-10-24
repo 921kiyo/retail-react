@@ -1,3 +1,10 @@
+// model and view should not talk each other
+var ItemManager = require('../models/itemManager');
+var ShoppingCart = require('../models/shoppingCart');
+var itemManager = new ItemManager();
+var shoppingCart = new ShoppingCart();
+var $ = require("jquery");
+var ko = require('knockout');
 var DisplayItems = function(){};
 
 DisplayItems.prototype = {
@@ -27,10 +34,24 @@ DisplayItems.prototype = {
    // Add button
    var button = document.createElement('button');
    button.setAttribute('class', 'add-button');
+   button.value = item.id;
+   button.setAttribute('id', item.id);
+   button.setAttribute('data-bind', 'click: add')
+   var self = item;
+   // button.onclick = function(self){
+   //  console.log('item', self);
+   //  shoppingCart.addItem(self);
+   //  itemManager.decreaseStock(self);
+   // };
+   console.log('button id',button.value);
    button.innerText = 'Add'
    li.appendChild(button);
    ul.appendChild(li);
- }
+ },
+ handleItem: function(){
+  shoppingCart.addItem(this.value);
+  itemManager.decreaseStock(this.value);
+  }
 }
 
 module.exports = DisplayItems;
