@@ -1,114 +1,128 @@
 [
     {
+        "id": 1,
         "name": "Almond Toe Court Shoes, Patent Black",
         "category": "Women’s Footwear",
         "color": "Patent Black",
         "price": 99.00,
         "stock": 5,
-        "imgUrl": "/img/women-footwear.png"
+        "imgUrl": "public/img/women-footwear.png"
       },
     {
+        "id": 2,
         "name": "Suede Shoes",
         "category": "Women’s Footwear",
         "color": "Blue",
         "price": 42.00,
         "stock": 4,
-        "imgUrl": "/img/women-footwear.png"
+        "imgUrl": "public/img/women-footwear.png"
       },
     {
+        "id": 3,
         "name": "Leather Driver Saddle Loafers",
         "category": "Men’s Footwear",
         "color": "Tan",
         "price": 34.00,
         "stock": 12,
-        "imgUrl": "/img/women-footwear.png"
+        "imgUrl": "public/img/women-footwear.png"
       },
     {
+        "id": 4,
         "name": "Flip Flops",
         "category": "Men’s Footwear",
         "color": "Red",
         "price": 19.00,
         "stock": 6,
-        "imgUrl": "/img/women-footwear.png"
+        "imgUrl": "public/img/women-footwear.png"
       },
     {
+        "id": 5,
         "name": "Flip Flops",
         "category": "Men’s Footwear",
         "color": "Blue",
         "price": 19.00,
         "stock": 0,
-        "imgUrl": "/img/women-casualwear.png"
+        "imgUrl": "public/img/women-casualwear.png"
       },
     {
+        "id": 6,
         "name": "Gold Button Cardigan",
         "category": "Women’s Casualwear",
         "color": "Black",
         "price": 167.00,
         "stock": 6,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 7,
         "name": "Cotton Shorts",
         "category": "Women’s Casualwear",
         "color": "Medium Red",
         "price": 30.00,
         "stock": 5,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 8,
         "name": "Fine Stripe Short Sleeve Shirt",
         "category": "Women’s Casualwear",
         "color": "Grey",
         "price": 49.99,
         "stock": 9,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 9,
         "name": "Fine Stripe Short Sleeve Shirt",
         "category": "Women’s Casualwear",
         "color": "Green",
         "price": 39.99,
         "stock": 3,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 10,
         "name": "Gold Button Cardigan",
         "category": "Women’s Casualwear",
         "color": "Black",
         "price": 167.00,
         "stock": 6,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 11,
         "name": "Sharkskin Waistco",
         "category": "Men’s Formalwear",
         "color": "Charcoal",
         "price": 75.00,
         "stock": 2,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 12,
         "name": "Lightweight Patch Pocket Blazer",
         "category": "Men’s Formalwear",
         "color": "Deer",
         "price": 175.50,
         "stock": 1,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 13,
         "name": "Bird Print Dress",
         "category": "Women’s Formalwear",
         "color": "Black",
         "price": 270.00,
         "stock": 10,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       },
     {
+        "id": 14,
         "name": "Mid Twist Cut-Out Dress",
         "category": "Women’s Casualwear",
         "color": "Pink",
         "price": 540.00,
         "stock": 5,
-        "imgUrl":"/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-formalwear.jpg"
       }
   ]
