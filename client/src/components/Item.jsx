@@ -1,7 +1,8 @@
 var React = require('react');
 
 var ItemList = React.createClass({
-  handleClick: function(){
+  addHandleClick: function(){
+
     this.props.addItemToCart(this.props.item);
   },
   render: function(){
@@ -12,7 +13,7 @@ var ItemList = React.createClass({
         <p>Color: {this.props.item.color}</p>
         <p>Price: £{this.props.item.price}</p>
         <p>Stock: {this.props.item.stock} available</p>
-        <button onClick={this.handleClick}>Add</button>
+        <button onClick={this.addHandleClick}>Add</button>
       </li>
     )
   }

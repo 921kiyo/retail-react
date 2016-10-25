@@ -10,9 +10,7 @@ var HeaderBox = React.createClass({
         <div id="nav-menu">
           <span id='menu-button'><i class="fa fa-bars" aria-hidden="true"></i></span>
         </div>
-          <ShoppingCart />
-          <p id="total-quantity"></p>
-          <p id="total-price"></p>
+          <ShoppingCart shoppingCart={this.props.shoppingCart} removeItemFromCart={this.props.removeItemFromCart}/>
       </div>
     )
   }

@@ -19803,14 +19803,14 @@
 	var React = __webpack_require__(1);
 	
 	// Importing sub components
-	var HeaderBox = __webpack_require__(161);
+	var HeaderBox = __webpack_require__(160);
 	var ItemList = __webpack_require__(162);
-	var NavMenu = __webpack_require__(160);
+	var NavMenu = __webpack_require__(164);
 	
 	// Importing models
-	var Api = __webpack_require__(164);
-	var ItemManager = __webpack_require__(165);
-	var ShoppingCartManager = __webpack_require__(166);
+	var Api = __webpack_require__(165);
+	var ItemManager = __webpack_require__(166);
+	var ShoppingCartManager = __webpack_require__(167);
 	var api = new Api();
 	var itemManager = new ItemManager();
 	var shoppingCartManager = new ShoppingCartManager();
@@ -19820,8 +19820,10 @@
 	
 	  getInitialState: function getInitialState() {
 	    return {
+	      itemManager: itemManager,
+	      shoppingCartManager: shoppingCartManager,
 	      items: [],
-	      shoppingCart: []
+	      shoppingCart: shoppingCartManager.cart
 	    };
 	  },
 	  set: function set(data) {
@@ -19834,10 +19836,19 @@
 	    api.httpRequest(url, this.set);
 	  },
 	  addItemToCart: function addItemToCart(item) {
+	    console.log('this is add');
 	    itemManager.reduceStock(item);
 	    shoppingCartManager.addItem(item);
+	    this.setState({ itemManager: itemManager });
+	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
-	  displayCart: function displayCart() {},
+	  removeItemFromCart: function removeItemFromCart(item) {
+	    console.log('this is remove');
+	    itemManager.addStock(item);
+	    shoppingCartManager.removeItem(item);
+	    this.setState({ itemManager: itemManager });
+	    this.setState({ shoppingCartManager: shoppingCartManager });
+	  },
 	  viewCart: function viewCart() {},
 	  applyDiscount: function applyDiscount() {},
 	  checkStock: function checkStock() {},
@@ -19846,7 +19857,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(HeaderBox, null),
+	      React.createElement(HeaderBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart }),
 	      React.createElement(ItemList, { items: this.state.items, addItemToCart: this.addItemToCart }),
 	      React.createElement(NavMenu, { items: this.state.items })
 	    );
@@ -19857,6 +19868,167 @@
 
 /***/ },
 /* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	
+	var ShoppingCart = __webpack_require__(161);
+	
+	var HeaderBox = React.createClass({
+	  displayName: 'HeaderBox',
+	
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'box header' },
+	      React.createElement(
+	        'div',
+	        { id: 'nav-menu' },
+	        React.createElement(
+	          'span',
+	          { id: 'menu-button' },
+	          React.createElement('i', { 'class': 'fa fa-bars', 'aria-hidden': 'true' })
+	        )
+	      ),
+	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart })
+	    );
+	  }
+	});
+	
+	module.exports = HeaderBox;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var CartItem = __webpack_require__(168);
+	
+	var ShoppingCart = React.createClass({
+	  displayName: 'ShoppingCart',
+	
+	  populateCartItemDOM: function populateCartItemDOM() {
+	    var self = this;
+	    var items = this.props.shoppingCart.map(function (item, index) {
+	      console.log('self is ', self);
+	      return React.createElement(CartItem, { item: item, key: index, removeItemFromCart: self.props.removeItemFromCart });
+	    });
+	    return items;
+	  },
+	  render: function render() {
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'button',
+	        { id: 'cart' },
+	        'Cart'
+	      ),
+	      this.populateCartItemDOM()
+	    );
+	  }
+	});
+	
+	module.exports = ShoppingCart;
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Item = __webpack_require__(163);
+	
+	var ItemList = React.createClass({
+	  displayName: 'ItemList',
+	
+	  populateItemDOM: function populateItemDOM() {
+	    var self = this;
+	    var itemDOM = this.props.items.map(function (item, index) {
+	      return React.createElement(Item, { item: item, key: index, addItemToCart: self.props.addItemToCart });
+	    });
+	    return itemDOM;
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'ul',
+	        { id: 'item-ul' },
+	        this.populateItemDOM()
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ItemList;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var ItemList = React.createClass({
+	  displayName: "ItemList",
+	
+	  addHandleClick: function addHandleClick() {
+	
+	    this.props.addItemToCart(this.props.item);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "li",
+	      null,
+	      React.createElement("img", { className: "item-image", src: this.props.item.imgUrl }),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Name: ",
+	        this.props.item.name
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Color: ",
+	        this.props.item.color
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Price: \xA3",
+	        this.props.item.price
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Stock: ",
+	        this.props.item.stock,
+	        " available"
+	      ),
+	      React.createElement(
+	        "button",
+	        { onClick: this.addHandleClick },
+	        "Add"
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ItemList;
+
+/***/ },
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -19919,132 +20091,7 @@
 	module.exports = NavMenu;
 
 /***/ },
-/* 161 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	
-	var ShoppingCart = __webpack_require__(167);
-	
-	var HeaderBox = React.createClass({
-	  displayName: 'HeaderBox',
-	
-	
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'box header' },
-	      React.createElement(
-	        'div',
-	        { id: 'nav-menu' },
-	        React.createElement(
-	          'span',
-	          { id: 'menu-button' },
-	          React.createElement('i', { 'class': 'fa fa-bars', 'aria-hidden': 'true' })
-	        )
-	      ),
-	      React.createElement(ShoppingCart, null),
-	      React.createElement('p', { id: 'total-quantity' }),
-	      React.createElement('p', { id: 'total-price' })
-	    );
-	  }
-	});
-	
-	module.exports = HeaderBox;
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var Item = __webpack_require__(163);
-	
-	var ItemList = React.createClass({
-	  displayName: 'ItemList',
-	
-	  populateItemDOM: function populateItemDOM() {
-	    var self = this;
-	    var itemDOM = this.props.items.map(function (item, index) {
-	      return React.createElement(Item, { item: item, key: index, addItemToCart: self.props.addItemToCart });
-	    });
-	    return itemDOM;
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'ul',
-	        { id: 'item-ul' },
-	        this.populateItemDOM()
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ItemList;
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	var ItemList = React.createClass({
-	  displayName: "ItemList",
-	
-	  handleClick: function handleClick() {
-	    this.props.addItemToCart(this.props.item);
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      "li",
-	      null,
-	      React.createElement("img", { className: "item-image", src: this.props.item.imgUrl }),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Name: ",
-	        this.props.item.name
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Color: ",
-	        this.props.item.color
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Price: \xA3",
-	        this.props.item.price
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Stock: ",
-	        this.props.item.stock,
-	        " available"
-	      ),
-	      React.createElement(
-	        "button",
-	        { onClick: this.handleClick },
-	        "Add"
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ItemList;
-
-/***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20070,7 +20117,7 @@
 	module.exports = Api;
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20086,13 +20133,15 @@
 	    item.stock -= 1;
 	    return item.stock;
 	  },
-	  checkStock: function checkStock(item) {}
+	  checkStock: function checkStock(item) {
+	    item.stock > 0 ? true : false;
+	  }
 	};
 	
 	module.exports = ItemManager;
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20126,27 +20175,38 @@
 	module.exports = ShoppingCartManager;
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
 	
-	var ShoppingCart = React.createClass({
-	  displayName: "ShoppingCart",
+	var CartItem = React.createClass({
+	  displayName: 'CartItem',
 	
-	  viewCart: function viewCart() {},
+	  removeHandleClick: function removeHandleClick() {
+	    this.props.removeItemFromCart(this.props.item);
+	  },
 	  render: function render() {
 	    return React.createElement(
-	      "button",
-	      { id: "cart", onClick: this.viewCart },
-	      "Cart"
+	      'li',
+	      null,
+	      React.createElement(
+	        'p',
+	        null,
+	        this.props.item.name
+	      ),
+	      React.createElement(
+	        'button',
+	        { onClick: this.removeHandleClick },
+	        'X'
+	      )
 	    );
 	  }
 	});
 	
-	module.exports = ShoppingCart;
+	module.exports = CartItem;
 
 /***/ }
 /******/ ]);

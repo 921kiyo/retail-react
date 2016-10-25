@@ -16,8 +16,10 @@ var shoppingCartManager = new ShoppingCartManager();
 var MasterBox = React.createClass({
   getInitialState:function(){
     return {
+      itemManager: itemManager,
+      shoppingCartManager: shoppingCartManager,
       items: [],
-      shoppingCart: []
+      shoppingCart: shoppingCartManager.cart
     }
   },
   set: function(data){
@@ -25,16 +27,23 @@ var MasterBox = React.createClass({
     return
   },
   componentDidMount: function(){
-  // Retrieving item information from json
+    // Retrieving item information from json
     var url = '/api/items';
     api.httpRequest(url, this.set);
   },
   addItemToCart: function(item){
+    console.log('this is add')
     itemManager.reduceStock(item);
     shoppingCartManager.addItem(item);
+    this.setState({itemManager: itemManager});
+    this.setState({shoppingCartManager: shoppingCartManager})
   },
-  displayCart: function(){
-
+  removeItemFromCart: function(item){
+    console.log('this is remove')
+    itemManager.addStock(item);
+    shoppingCartManager.removeItem(item);
+    this.setState({itemManager: itemManager});
+    this.setState({shoppingCartManager: shoppingCartManager})
   },
   viewCart: function(){
 
@@ -51,7 +60,7 @@ var MasterBox = React.createClass({
   render: function(){
     return (
       <div>
-        <HeaderBox />
+        <HeaderBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart}/>
         <ItemList items={this.state.items} addItemToCart={this.addItemToCart}/>
         <NavMenu items={this.state.items}/>
       </div>
