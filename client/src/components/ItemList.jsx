@@ -5,7 +5,9 @@ var ItemList = React.createClass({
   populateItemDOM: function(){
     var self = this;
     var itemDOM = this.props.items.map(function(item, index){
-      return(<Item item={item} key={index}  addItemToCart={self.props.addItemToCart}/> )
+      return(
+        <Item item={item} key={index}  addItemToCart={self.props.addItemToCart}/>
+      )
     })
     return itemDOM
   },

@@ -19,6 +19,7 @@ var MasterBox = React.createClass({
       itemManager: itemManager,
       shoppingCartManager: shoppingCartManager,
       items: [],
+      totalPrice: shoppingCartManager.totalPrice,
       shoppingCart: shoppingCartManager.cart
     }
   },
@@ -32,16 +33,20 @@ var MasterBox = React.createClass({
     api.httpRequest(url, this.set);
   },
   addItemToCart: function(item){
-    console.log('this is add')
     itemManager.reduceStock(item);
     shoppingCartManager.addItem(item);
+
+    // DYI
+    shoppingCartManager.calculateTotalPrice();
+    this.setState({totalPrice: shoppingCartManager.totalPrice})
     this.setState({itemManager: itemManager});
     this.setState({shoppingCartManager: shoppingCartManager})
   },
   removeItemFromCart: function(item){
-    console.log('this is remove')
     itemManager.addStock(item);
     shoppingCartManager.removeItem(item);
+    // DYI
+    shoppingCartManage.calculateTotalPrice();
     this.setState({itemManager: itemManager});
     this.setState({shoppingCartManager: shoppingCartManager})
   },
@@ -54,13 +59,14 @@ var MasterBox = React.createClass({
   checkStock: function(){
 
   },
-  checkValidVoucher: function(){
-
+  checkVoucher: function(voucher){
+    shoppingCartManager.checkVoucher(voucher);
+    this.setState({totalPrice: shoppingCartManager.totalPrice})
   },
   render: function(){
     return (
       <div>
-        <HeaderBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart}/>
+        <HeaderBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart} totalPrice={this.state.totalPrice} checkVoucher={this.checkVoucher}/>
         <ItemList items={this.state.items} addItemToCart={this.addItemToCart}/>
         <NavMenu items={this.state.items}/>
       </div>

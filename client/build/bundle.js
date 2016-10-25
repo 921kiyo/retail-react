@@ -19804,13 +19804,13 @@
 	
 	// Importing sub components
 	var HeaderBox = __webpack_require__(160);
-	var ItemList = __webpack_require__(162);
-	var NavMenu = __webpack_require__(164);
+	var ItemList = __webpack_require__(163);
+	var NavMenu = __webpack_require__(165);
 	
 	// Importing models
-	var Api = __webpack_require__(165);
-	var ItemManager = __webpack_require__(166);
-	var ShoppingCartManager = __webpack_require__(167);
+	var Api = __webpack_require__(166);
+	var ItemManager = __webpack_require__(167);
+	var ShoppingCartManager = __webpack_require__(168);
 	var api = new Api();
 	var itemManager = new ItemManager();
 	var shoppingCartManager = new ShoppingCartManager();
@@ -19823,6 +19823,7 @@
 	      itemManager: itemManager,
 	      shoppingCartManager: shoppingCartManager,
 	      items: [],
+	      totalPrice: shoppingCartManager.totalPrice,
 	      shoppingCart: shoppingCartManager.cart
 	    };
 	  },
@@ -19836,28 +19837,35 @@
 	    api.httpRequest(url, this.set);
 	  },
 	  addItemToCart: function addItemToCart(item) {
-	    console.log('this is add');
 	    itemManager.reduceStock(item);
 	    shoppingCartManager.addItem(item);
+	
+	    // DYI
+	    shoppingCartManager.calculateTotalPrice();
+	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
 	    this.setState({ itemManager: itemManager });
 	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
 	  removeItemFromCart: function removeItemFromCart(item) {
-	    console.log('this is remove');
 	    itemManager.addStock(item);
 	    shoppingCartManager.removeItem(item);
+	    // DYI
+	    shoppingCartManage.calculateTotalPrice();
 	    this.setState({ itemManager: itemManager });
 	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
 	  viewCart: function viewCart() {},
 	  applyDiscount: function applyDiscount() {},
 	  checkStock: function checkStock() {},
-	  checkValidVoucher: function checkValidVoucher() {},
+	  checkVoucher: function checkVoucher(voucher) {
+	    shoppingCartManager.checkVoucher(voucher);
+	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(HeaderBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart }),
+	      React.createElement(HeaderBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart, totalPrice: this.state.totalPrice, checkVoucher: this.checkVoucher }),
 	      React.createElement(ItemList, { items: this.state.items, addItemToCart: this.addItemToCart }),
 	      React.createElement(NavMenu, { items: this.state.items })
 	    );
@@ -19893,7 +19901,7 @@
 	          React.createElement('i', { 'class': 'fa fa-bars', 'aria-hidden': 'true' })
 	        )
 	      ),
-	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart })
+	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
 	    );
 	  }
 	});
@@ -19907,7 +19915,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var CartItem = __webpack_require__(168);
+	var CartItem = __webpack_require__(162);
 	
 	var ShoppingCart = React.createClass({
 	  displayName: 'ShoppingCart',
@@ -19915,13 +19923,15 @@
 	  populateCartItemDOM: function populateCartItemDOM() {
 	    var self = this;
 	    var items = this.props.shoppingCart.map(function (item, index) {
-	      console.log('self is ', self);
 	      return React.createElement(CartItem, { item: item, key: index, removeItemFromCart: self.props.removeItemFromCart });
 	    });
 	    return items;
 	  },
+	  applyVoucher: function applyVoucher() {
+	    var voucher = document.getElementById('voucherCode').value;
+	    this.props.checkVoucher(voucher);
+	  },
 	  render: function render() {
-	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -19930,7 +19940,20 @@
 	        { id: 'cart' },
 	        'Cart'
 	      ),
-	      this.populateCartItemDOM()
+	      this.populateCartItemDOM(),
+	      React.createElement(
+	        'p',
+	        null,
+	        'Total: ',
+	        this.props.totalPrice,
+	        ' '
+	      ),
+	      React.createElement('input', { id: 'voucherCode', type: 'text', placeholder: 'voucher keywords' }),
+	      React.createElement(
+	        'button',
+	        { onClick: this.applyVoucher },
+	        'Apply'
+	      )
 	    );
 	  }
 	});
@@ -19944,7 +19967,41 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var Item = __webpack_require__(163);
+	
+	var CartItem = React.createClass({
+	  displayName: 'CartItem',
+	
+	  removeHandleClick: function removeHandleClick() {
+	    this.props.removeItemFromCart(this.props.item);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'li',
+	      null,
+	      React.createElement(
+	        'p',
+	        null,
+	        this.props.item.name
+	      ),
+	      React.createElement(
+	        'button',
+	        { onClick: this.removeHandleClick },
+	        'X'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = CartItem;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var Item = __webpack_require__(164);
 	
 	var ItemList = React.createClass({
 	  displayName: 'ItemList',
@@ -19972,7 +20029,7 @@
 	module.exports = ItemList;
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20028,7 +20085,7 @@
 	module.exports = ItemList;
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20091,7 +20148,7 @@
 	module.exports = NavMenu;
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20117,7 +20174,7 @@
 	module.exports = Api;
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20141,14 +20198,14 @@
 	module.exports = ItemManager;
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	var ShoppingCartManager = function ShoppingCartManager() {
-	  // var self = this;
 	  this.cart = [];
+	  this.totalPrice = 0;
 	};
 	
 	ShoppingCartManager.prototype = {
@@ -20160,53 +20217,38 @@
 	    this.cart.splice(index, 1);
 	    console.log(this.cart);
 	  },
-	  viewItems: function viewItems() {},
+	  checkVoucher: function checkVoucher(voucher) {
+	    if (voucher == "voucher" && this.totalPrice != 0) {
+	      if (this.isFootwearIncluded() && this.totalPrice >= 75) {
+	        this.totalPrice -= 15;
+	      } else if (this.totalPrice >= 50) {
+	        this.totalPrice -= 10;
+	      } else {
+	        this.totalPrice -= 5;
+	      }
+	    }
+	  },
+	  isFootwearIncluded: function isFootwearIncluded() {
+	    for (var i = 0; i < this.cart.length; i++) {
+	      if (this.cart[i].category.includes('Women’s Footwear') || this.cart[i].category.includes('Men’s Footwear')) {
+	        console.log(true);
+	        return true;
+	      }
+	    }
+	    console.log(false);
+	    return false;
+	  },
 	  totalQuantity: function totalQuantity() {
 	    return this.cart.length;
 	  },
-	  totalPrice: function totalPrice() {
-	    this.total = 0;
+	  calculateTotalPrice: function calculateTotalPrice() {
 	    for (var i = 0; i < this.cart.length; i++) {
-	      this.total += this.cart[i].price;
+	      this.totalPrice += this.cart[i].price;
 	    }
-	    return this.total;
+	    return this.totalPrice;
 	  }
 	};
 	module.exports = ShoppingCartManager;
-
-/***/ },
-/* 168 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	
-	var CartItem = React.createClass({
-	  displayName: 'CartItem',
-	
-	  removeHandleClick: function removeHandleClick() {
-	    this.props.removeItemFromCart(this.props.item);
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      'li',
-	      null,
-	      React.createElement(
-	        'p',
-	        null,
-	        this.props.item.name
-	      ),
-	      React.createElement(
-	        'button',
-	        { onClick: this.removeHandleClick },
-	        'X'
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = CartItem;
 
 /***/ }
 /******/ ]);
