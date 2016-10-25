@@ -3,7 +3,7 @@ var React = require('react');
 // Importing sub components
 var HeaderBox = require('./HeaderBox.jsx');
 var ItemList = require('./ItemList.jsx');
-var NavMenu = require('./NavMenu.jsx');
+var CartBox = require('./CartBox.jsx');
 
 // Importing models
 var Api = require('../models/api.js');
@@ -27,31 +27,26 @@ var MasterBox = React.createClass({
     this.setState({items: data})
     return
   },
+  // Retrieving item information from json
   componentDidMount: function(){
-    // Retrieving item information from json
     var url = '/api/items';
     api.httpRequest(url, this.set);
   },
   addItemToCart: function(item){
     itemManager.reduceStock(item);
     shoppingCartManager.addItem(item);
-
-    // DYI
-    shoppingCartManager.calculateTotalPrice();
-    this.setState({totalPrice: shoppingCartManager.totalPrice})
-    this.setState({itemManager: itemManager});
-    this.setState({shoppingCartManager: shoppingCartManager})
+    this.updateInfo()
   },
   removeItemFromCart: function(item){
     itemManager.addStock(item);
     shoppingCartManager.removeItem(item);
-    // DYI
-    shoppingCartManage.calculateTotalPrice();
-    this.setState({itemManager: itemManager});
-    this.setState({shoppingCartManager: shoppingCartManager})
+    this.updateInfo();
   },
-  openCart: function(event){
-    shoppingCartManager.openCart(event);
+  updateInfo: function(){
+    shoppingCartManager.calculateTotalPrice();
+    this.setState({totalPrice: shoppingCartManager.totalPrice});
+    this.setState({itemManager: itemManager});
+    this.setState({shoppingCartManager: shoppingCartManager});
   },
   checkStock: function(){
 
@@ -63,10 +58,10 @@ var MasterBox = React.createClass({
   render: function(){
     return (
       <div>
-        <HeaderBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart} totalPrice={this.state.totalPrice} checkVoucher={this.checkVoucher} openCart={this.openCart}/>
+        <HeaderBox openCart={this.openCart} />
         <div className="container">
           <ItemList items={this.state.items} addItemToCart={this.addItemToCart}/>
-          <NavMenu items={this.state.items}/>
+          <CartBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart} totalPrice={this.state.totalPrice} checkVoucher={this.checkVoucher} />
         </div>
       </div>
     )

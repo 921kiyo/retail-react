@@ -15,11 +15,13 @@ var ShoppingCart = React.createClass({
   },
   render: function(){
     return (
-      <div>
-        {this.populateCartItemDOM()}
+      <div　id="cart-info">
         <p>Total: {this.props.totalPrice} </p>
         <input id="voucherCode" type="text" placeholder="voucher keywords"/>
         <button onClick={this.applyVoucher}>Apply</button>
+        <div className="cart-item-list-div">
+          {this.populateCartItemDOM()}
+        </div>
       </div>
     )
   }

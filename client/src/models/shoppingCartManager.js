@@ -2,6 +2,7 @@
 var ShoppingCartManager = function(){
   this.cart = [];
   this.totalPrice = 0;
+  this.isVoucherUsed = false;
 };
 
 ShoppingCartManager.prototype = {
@@ -11,46 +12,64 @@ ShoppingCartManager.prototype = {
   removeItem: function(item){
     var index = this.cart.indexOf(item);
     this.cart.splice(index,1);
-    console.log(this.cart);
   },
   checkVoucher: function(voucher){
-    if(voucher == "voucher" && this.totalPrice != 0){
-      if(this.isFootwearIncluded() && this.totalPrice >= 75){
-        this.totalPrice -= 15;
-      }
-      else if (this.totalPrice >= 50){
-        this.totalPrice -= 10;
-      }
-      else {
-        this.totalPrice -= 5;
+    // You cannot use more than one voucher, regardless of types
+    if (!this.isVoucherUsed){
+      switch(voucher){
+        case "SMALL":
+          this.checkSmallVoucher();
+          break;
+        case "MEDIUM":
+          this.checkMediumVoucher();
+          break;
+        case "LARGE":
+          this.checkLargeVoucher();
+          break;
+        default:
+          console.log('default');
+          break;
       }
     }
+  },
+  checkSmallVoucher: function(){
+    if(this.totalPrice > 5){
+      this.totalPrice -= 5;
+    }
+    else{
+      this.totalPrice = 0;
+    }
+    this.isVoucherUsed = true;
+  },
+  checkMediumVoucher: function(){
+    if (this.totalPrice >= 50){
+      this.totalPrice -= 10;
+    }
+    this.isVoucherUsed = true;
+  },
+  checkLargeVoucher: function(){
+    if(this.isFootwearIncluded() && this.totalPrice >= 75){
+      this.totalPrice -= 15;
+    }
+    this.isVoucherUsed = true;
   },
   isFootwearIncluded: function(){
     for(var i = 0; i<this.cart.length; i++){
       if (this.cart[i].category.includes('Women’s Footwear') || this.cart[i].category.includes('Men’s Footwear')){
-        console.log(true);
         return true
       }
     }
-    console.log(false);
     return false
   },
-  totalQuantity: function(){
+  calculateTotalQuantity: function(){
     return this.cart.length;
   },
   calculateTotalPrice: function(){
+    this.totalPrice = 0;
     for(var i = 0; i<this.cart.length; i++){
       this.totalPrice += this.cart[i].price;
     }
     return this.totalPrice;
-  },
-  openCart: function(event){
-    // Function for clicking hamburger icon to open menu
-    var menu = document.querySelector('.menu');
-    console.log(menu)
-    menu.classList.toggle('open');
-    event.stopPropagation();
   }
 }
 module.exports = ShoppingCartManager;

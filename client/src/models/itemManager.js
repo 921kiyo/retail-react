@@ -10,7 +10,7 @@ ItemManager.prototype = {
     return item.stock;
   },
   checkStock: function(item){
-    item.stock > 0 ? true: false;
+    item.stock > 0 ? true : false;
   }
 }
 

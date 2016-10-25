@@ -1,16 +1,18 @@
 var React = require('react');
 
-var ShoppingCart = require('./ShoppingCart.jsx');
-
 var HeaderBox = React.createClass({
-
+  // Function for clicking hamburger icon to open menu
+  viewCart: function(event){
+    var menu = document.querySelector('.menu');
+    menu.classList.toggle('open');
+    event.stopPropagation();
+  },
   render: function(){
     return (
       <div className="box header">
         <div id="nav-menu">
-          <i className="fa fa-bars" aria-hidden="true" onClick={this.props.openCart}></i>
+          <i className="fa fa-shopping-cart fa-5x" aria-hidden="true" onClick={this.viewCart}></i>
         </div>
-          <ShoppingCart shoppingCart={this.props.shoppingCart} removeItemFromCart={this.props.removeItemFromCart} totalPrice={this.props.totalPrice} checkVoucher={this.props.checkVoucher} />
       </div>
     )
   }

@@ -19805,7 +19805,7 @@
 	// Importing sub components
 	var HeaderBox = __webpack_require__(160);
 	var ItemList = __webpack_require__(163);
-	var NavMenu = __webpack_require__(165);
+	var CartBox = __webpack_require__(169);
 	
 	// Importing models
 	var Api = __webpack_require__(166);
@@ -19831,31 +19831,26 @@
 	    this.setState({ items: data });
 	    return;
 	  },
+	  // Retrieving item information from json
 	  componentDidMount: function componentDidMount() {
-	    // Retrieving item information from json
 	    var url = '/api/items';
 	    api.httpRequest(url, this.set);
 	  },
 	  addItemToCart: function addItemToCart(item) {
 	    itemManager.reduceStock(item);
 	    shoppingCartManager.addItem(item);
-	
-	    // DYI
-	    shoppingCartManager.calculateTotalPrice();
-	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
-	    this.setState({ itemManager: itemManager });
-	    this.setState({ shoppingCartManager: shoppingCartManager });
+	    this.updateInfo();
 	  },
 	  removeItemFromCart: function removeItemFromCart(item) {
 	    itemManager.addStock(item);
 	    shoppingCartManager.removeItem(item);
-	    // DYI
-	    shoppingCartManage.calculateTotalPrice();
+	    this.updateInfo();
+	  },
+	  updateInfo: function updateInfo() {
+	    shoppingCartManager.calculateTotalPrice();
+	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
 	    this.setState({ itemManager: itemManager });
 	    this.setState({ shoppingCartManager: shoppingCartManager });
-	  },
-	  openCart: function openCart(event) {
-	    shoppingCartManager.openCart(event);
 	  },
 	  checkStock: function checkStock() {},
 	  checkVoucher: function checkVoucher(voucher) {
@@ -19866,12 +19861,12 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(HeaderBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart, totalPrice: this.state.totalPrice, checkVoucher: this.checkVoucher, openCart: this.openCart }),
+	      React.createElement(HeaderBox, { openCart: this.openCart }),
 	      React.createElement(
 	        'div',
 	        { className: 'container' },
 	        React.createElement(ItemList, { items: this.state.items, addItemToCart: this.addItemToCart }),
-	        React.createElement(NavMenu, { items: this.state.items })
+	        React.createElement(CartBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart, totalPrice: this.state.totalPrice, checkVoucher: this.checkVoucher })
 	      )
 	    );
 	  }
@@ -19887,12 +19882,15 @@
 	
 	var React = __webpack_require__(1);
 	
-	var ShoppingCart = __webpack_require__(161);
-	
 	var HeaderBox = React.createClass({
 	  displayName: 'HeaderBox',
 	
-	
+	  // Function for clicking hamburger icon to open menu
+	  viewCart: function viewCart(event) {
+	    var menu = document.querySelector('.menu');
+	    menu.classList.toggle('open');
+	    event.stopPropagation();
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
@@ -19900,9 +19898,8 @@
 	      React.createElement(
 	        'div',
 	        { id: 'nav-menu' },
-	        React.createElement('i', { className: 'fa fa-bars', 'aria-hidden': 'true', onClick: this.props.openCart })
-	      ),
-	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
+	        React.createElement('i', { className: 'fa fa-shopping-cart fa-5x', 'aria-hidden': 'true', onClick: this.viewCart })
+	      )
 	    );
 	  }
 	});
@@ -19935,8 +19932,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
-	      this.populateCartItemDOM(),
+	      { id: 'cart-info' },
 	      React.createElement(
 	        'p',
 	        null,
@@ -19949,6 +19945,11 @@
 	        'button',
 	        { onClick: this.applyVoucher },
 	        'Apply'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'cart-item-list-div' },
+	        this.populateCartItemDOM()
 	      )
 	    );
 	  }
@@ -20080,60 +20081,7 @@
 	module.exports = ItemList;
 
 /***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	var NavMenu = React.createClass({
-	  displayName: "NavMenu",
-	
-	  render: function render() {
-	    return (
-	      // TODO: make it dynamic
-	      React.createElement(
-	        "div",
-	        { className: "menu" },
-	        React.createElement(
-	          "p",
-	          { className: "select", id: "women-footwear" },
-	          "Women\u2019s footwear"
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "select", id: "men-footwear" },
-	          "Men\u2019s footwear"
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "select", id: "women-casualwear" },
-	          "Women\u2019s casualwear"
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "select", id: "men-casualwear" },
-	          "Men\u2019s casualwear"
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "select", id: "women-formalwear" },
-	          "Women\u2019s formalwear"
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "select", id: "men-formalwear" },
-	          "Man\u2019s formalwear"
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NavMenu;
-
-/***/ },
+/* 165 */,
 /* 166 */
 /***/ function(module, exports) {
 
@@ -20187,11 +20135,12 @@
 /* 168 */
 /***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 	
 	var ShoppingCartManager = function ShoppingCartManager() {
 	  this.cart = [];
 	  this.totalPrice = 0;
+	  this.isVoucherUsed = false;
 	};
 	
 	ShoppingCartManager.prototype = {
@@ -20201,47 +20150,89 @@
 	  removeItem: function removeItem(item) {
 	    var index = this.cart.indexOf(item);
 	    this.cart.splice(index, 1);
-	    console.log(this.cart);
 	  },
 	  checkVoucher: function checkVoucher(voucher) {
-	    if (voucher == "voucher" && this.totalPrice != 0) {
-	      if (this.isFootwearIncluded() && this.totalPrice >= 75) {
-	        this.totalPrice -= 15;
-	      } else if (this.totalPrice >= 50) {
-	        this.totalPrice -= 10;
-	      } else {
-	        this.totalPrice -= 5;
+	    // You cannot use more than one voucher, regardless of types
+	    if (!this.isVoucherUsed) {
+	      switch (voucher) {
+	        case "SMALL":
+	          this.checkSmallVoucher();
+	          break;
+	        case "MEDIUM":
+	          this.checkMediumVoucher();
+	          break;
+	        case "LARGE":
+	          this.checkLargeVoucher();
+	          break;
+	        default:
+	          console.log('default');
+	          break;
 	      }
 	    }
+	  },
+	  checkSmallVoucher: function checkSmallVoucher() {
+	    if (this.totalPrice > 5) {
+	      this.totalPrice -= 5;
+	    } else {
+	      this.totalPrice = 0;
+	    }
+	    this.isVoucherUsed = true;
+	  },
+	  checkMediumVoucher: function checkMediumVoucher() {
+	    if (this.totalPrice >= 50) {
+	      this.totalPrice -= 10;
+	    }
+	    this.isVoucherUsed = true;
+	  },
+	  checkLargeVoucher: function checkLargeVoucher() {
+	    if (this.isFootwearIncluded() && this.totalPrice >= 75) {
+	      this.totalPrice -= 15;
+	    }
+	    this.isVoucherUsed = true;
 	  },
 	  isFootwearIncluded: function isFootwearIncluded() {
 	    for (var i = 0; i < this.cart.length; i++) {
 	      if (this.cart[i].category.includes('Women’s Footwear') || this.cart[i].category.includes('Men’s Footwear')) {
-	        console.log(true);
 	        return true;
 	      }
 	    }
-	    console.log(false);
 	    return false;
 	  },
-	  totalQuantity: function totalQuantity() {
+	  calculateTotalQuantity: function calculateTotalQuantity() {
 	    return this.cart.length;
 	  },
 	  calculateTotalPrice: function calculateTotalPrice() {
+	    this.totalPrice = 0;
 	    for (var i = 0; i < this.cart.length; i++) {
 	      this.totalPrice += this.cart[i].price;
 	    }
 	    return this.totalPrice;
-	  },
-	  openCart: function openCart(event) {
-	    // Function for clicking hamburger icon to open menu
-	    var menu = document.querySelector('.menu');
-	    console.log(menu);
-	    menu.classList.toggle('open');
-	    event.stopPropagation();
 	  }
 	};
 	module.exports = ShoppingCartManager;
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ShoppingCart = __webpack_require__(161);
+	
+	var CartBox = React.createClass({
+	  displayName: 'CartBox',
+	
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'menu' },
+	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
+	    );
+	  }
+	});
+	
+	module.exports = CartBox;
 
 /***/ }
 /******/ ]);
