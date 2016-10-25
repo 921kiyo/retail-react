@@ -19811,14 +19811,26 @@
 	  getInitialState: function getInitialState() {
 	    return { items: [] };
 	  },
-	  componentDidMount: function componentDidMount() {},
+	  componentDidMount: function componentDidMount() {
+	    var url = '/api/items';
+	    var request = new XMLHttpRequest();
+	    request.open('GET', url);
+	    request.onload = function () {
+	      if (request.status == 200) {
+	        var json = request.responseText;
+	        var data = JSON.parse(json);
+	        this.setState({ items: data });
+	      }
+	    }.bind(this);
+	    request.send(null);
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(HeaderBox, null),
-	      React.createElement(ItemList, null),
-	      React.createElement(NavMenu, null)
+	      React.createElement(ItemList, { items: this.state.items }),
+	      React.createElement(NavMenu, { items: this.state.items })
 	    );
 	  }
 	});
@@ -19932,15 +19944,73 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var Item = __webpack_require__(163);
 	
 	var ItemList = React.createClass({
 	  displayName: 'ItemList',
 	
+	  populateItemDOM: function populateItemDOM() {
+	    var itemDOM = this.props.items.map(function (item, index) {
+	      return React.createElement(Item, { item: item, key: index });
+	    });
+	    return itemDOM;
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
-	      'ItemList'
+	      React.createElement(
+	        'ul',
+	        { id: 'item-ul' },
+	        this.populateItemDOM()
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ItemList;
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var ItemList = React.createClass({
+	  displayName: "ItemList",
+	
+	  render: function render() {
+	    return React.createElement(
+	      "li",
+	      null,
+	      React.createElement("img", { className: "item-image", src: this.props.item.imgUrl }),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Name: ",
+	        this.props.item.name
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Color: ",
+	        this.props.item.color
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Price: \xA3",
+	        this.props.item.price
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Stock: ",
+	        this.props.item.stock,
+	        " available"
+	      )
 	    );
 	  }
 	});
