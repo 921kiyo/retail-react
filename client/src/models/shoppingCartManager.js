@@ -27,8 +27,7 @@ ShoppingCartManager.prototype = {
           this.checkLargeVoucher();
           break;
         default:
-          console.log('default');
-          break;
+          return false;
       }
     }
   },

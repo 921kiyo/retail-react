@@ -12,6 +12,12 @@ var ShoppingCart = React.createClass({
   applyVoucher: function(){
     var voucher = document.getElementById('voucherCode').value;
     this.props.checkVoucher(voucher);
+    // Pop up an alert message when applied an invalid voucher
+    if(!this.props.checkVoucher(voucher)){
+      var message = document.getElementById('message');
+      message.innerText = "Invalid voucher";
+      message.style.color = "#D50A1E";
+    }
   },
   render: function(){
     return (
@@ -19,6 +25,7 @@ var ShoppingCart = React.createClass({
         <p>Total: {this.props.totalPrice} </p>
         <input id="voucherCode" type="text" placeholder="voucher keywords"/>
         <button onClick={this.applyVoucher}>Apply</button>
+        <span id="message"></span>
         <div className="cart-item-list-div">
           {this.populateCartItemDOM()}
         </div>

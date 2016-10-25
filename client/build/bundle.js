@@ -19928,6 +19928,12 @@
 	  applyVoucher: function applyVoucher() {
 	    var voucher = document.getElementById('voucherCode').value;
 	    this.props.checkVoucher(voucher);
+	    // Pop up an alert message when applied an invalid voucher
+	    if (!this.props.checkVoucher(voucher)) {
+	      var message = document.getElementById('message');
+	      message.innerText = "Invalid voucher";
+	      message.style.color = "#D50A1E";
+	    }
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -19946,6 +19952,7 @@
 	        { onClick: this.applyVoucher },
 	        'Apply'
 	      ),
+	      React.createElement('span', { id: 'message' }),
 	      React.createElement(
 	        'div',
 	        { className: 'cart-item-list-div' },
@@ -20165,8 +20172,7 @@
 	          this.checkLargeVoucher();
 	          break;
 	        default:
-	          console.log('default');
-	          break;
+	          return false;
 	      }
 	    }
 	  },
