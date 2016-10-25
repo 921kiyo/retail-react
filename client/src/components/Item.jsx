@@ -1,6 +1,9 @@
 var React = require('react');
 
 var ItemList = React.createClass({
+  checkStock: function(){
+    return this.props.item.stock == 0;
+  },
   addHandleClick: function(){
 
     this.props.addItemToCart(this.props.item);
@@ -13,7 +16,7 @@ var ItemList = React.createClass({
         <p>Color: {this.props.item.color}</p>
         <p>Price: £{this.props.item.price}</p>
         <p>Stock: {this.props.item.stock} available</p>
-        <button onClick={this.addHandleClick}>Add</button>
+        <button onClick={this.addHandleClick} disabled={this.checkStock()}>Add</button>
       </li>
     )
   }

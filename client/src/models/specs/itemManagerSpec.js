@@ -13,7 +13,7 @@ describe('Item', function(){
         stock: 5,
         imgUrl: "public/img/women-footwear.png"
       };
-  })
+  });
 
   it('can add a stock', function(){
     itemManger.addStock(item1);
@@ -23,10 +23,5 @@ describe('Item', function(){
   it('can reduce a stock', function(){
     itemManger.reduceStock(item1);
     assert.equal(4, item1.stock);
-  });
-
-  it('can check stock', function(){
-    var result = itemManger.checkStock(item1);
-    assert.equal(true, result);
   });
 });

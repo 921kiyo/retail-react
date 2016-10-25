@@ -50,55 +50,9 @@
 	var ReactDOM = __webpack_require__(158);
 	var MasterBox = __webpack_require__(159);
 	
-	// var DisplayItems = require('./src/views/displayItems');
 	window.onload = function () {
-	  // main();
-	
 	  ReactDOM.render(React.createElement(MasterBox, { url: '/api/items' }), document.getElementById('app'));
 	};
-	
-	// var Main = function() {
-	//   var self = this;
-	//   console.log(self.query);
-	//   // Creating a list of items on browser
-	//   var items;
-	//   var url = '/api/items';
-	//   var request = new XMLHttpRequest();
-	//   request.open('GET', url);
-	//   request.onload = function(){
-	//     if(request.status == 200){
-	//       var json = request.responseText;
-	//       items = JSON.parse(json);
-	//       var displayItems = new DisplayItems();
-	//       for (i=0; i<items.length; i++){
-	//         displayItems.createItemDOM(items[i]);
-	
-	//       }
-	//     }
-	//   }
-	//   request.send(null);
-	
-	
-	//   self.add = function(item){
-	//     console.log(item);
-	//   }
-	
-	//   // Function for clicking hamburger icon to open menu
-	//   var navMenu = document.getElementById('menu-button');
-	//   navMenu.addEventListener('click', function(event){
-	//     var menu = document.querySelector('.menu');
-	//     menu.classList.toggle('open');
-	//     event.stopPropagation();
-	//   });
-	
-	//   // Function for closing menu
-	//   var box = document.getElementById('main-display');
-	//   box.addEventListener('click', function(event){
-	//     var menu = document.querySelector('.menu');
-	//     menu.className = 'menu';
-	//   });
-	
-	// }
 
 /***/ },
 /* 1 */
@@ -19852,7 +19806,6 @@
 	    this.setState({ itemManager: itemManager });
 	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
-	  checkStock: function checkStock() {},
 	  checkVoucher: function checkVoucher(voucher) {
 	    shoppingCartManager.checkVoucher(voucher);
 	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
@@ -20015,6 +19968,13 @@
 	var ItemList = React.createClass({
 	  displayName: 'ItemList',
 	
+	  checkStock: function checkStock() {
+	    if (this.props.checkStock) {
+	      console.log('stock available');
+	    } else {
+	      console.log('no stock');
+	    }
+	  },
 	  populateItemDOM: function populateItemDOM() {
 	    var self = this;
 	    var itemDOM = this.props.items.map(function (item, index) {
@@ -20048,6 +20008,9 @@
 	var ItemList = React.createClass({
 	  displayName: "ItemList",
 	
+	  checkStock: function checkStock() {
+	    return this.props.item.stock == 0;
+	  },
 	  addHandleClick: function addHandleClick() {
 	
 	    this.props.addItemToCart(this.props.item);
@@ -20083,7 +20046,7 @@
 	      ),
 	      React.createElement(
 	        "button",
-	        { onClick: this.addHandleClick },
+	        { onClick: this.addHandleClick, disabled: this.checkStock() },
 	        "Add"
 	      )
 	    );
@@ -20102,7 +20065,6 @@
 	var Api = function Api() {};
 	Api.prototype = {
 	  httpRequest: function httpRequest(url, callback) {
-	    var url = '/api/items';
 	    var request = new XMLHttpRequest();
 	    request.open('GET', url);
 	    request.onload = function () {
@@ -20135,9 +20097,6 @@
 	  reduceStock: function reduceStock(item) {
 	    item.stock -= 1;
 	    return item.stock;
-	  },
-	  checkStock: function checkStock(item) {
-	    item.stock > 0 ? true : false;
 	  }
 	};
 	
@@ -20168,7 +20127,6 @@
 	    if (!this.isVoucherUsed) {
 	      switch (voucher) {
 	        case "SMALL":
-	          console.log('small');
 	          this.checkSmallVoucher();
 	          break;
 	        case "MEDIUM":

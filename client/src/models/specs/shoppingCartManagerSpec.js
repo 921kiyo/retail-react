@@ -22,20 +22,20 @@ describe('Shopping Cart', function(){
         price: 42.00,
         stock: 4,
         imgUrl: "public/img/women-footwear.png"
-      }
-  })
+      };
+  });
 
   it('can add an item', function(){
     shoppingCartManager.addItem(item1);
     assert.equal(1, shoppingCartManager.cart.length);
-  })
+  });
 
   it('can remove an item', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.addItem(item2);
     shoppingCartManager.removeItem(item1);
     assert.equal(1, shoppingCartManager.cart.length);
-  })
+  });
 
   it('can check the type of voucher applied', function(){
     shoppingCartManager.addItem(item1);
@@ -43,48 +43,48 @@ describe('Shopping Cart', function(){
     shoppingCartManager.checkVoucher("SMALL");
     // Checking if the second voucher should not change the total price
     shoppingCartManager.checkVoucher("SMALL");
-    assert.equal(94.00, shoppingCartManager.totalPrice )
-  })
+    assert.equal(94.00, shoppingCartManager.totalPrice );
+  });
 
   it('can check the function of small voucher', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.calculateTotalPrice();
     shoppingCartManager.checkSmallVoucher();
-    assert.equal(94.00, shoppingCartManager.totalPrice )
-  })
+    assert.equal(94.00, shoppingCartManager.totalPrice );
+  });
 
   it('can check the function of medium voucher', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.calculateTotalPrice();
     shoppingCartManager.checkMediumVoucher();
-    assert.equal(89.00, shoppingCartManager.totalPrice )
-  })
+    assert.equal(89.00, shoppingCartManager.totalPrice );
+  });
 
   it('can check the function of large voucher', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.calculateTotalPrice();
     shoppingCartManager.checkLargeVoucher();
-    assert.equal(84.00, shoppingCartManager.totalPrice )
-  })
+    assert.equal(84.00, shoppingCartManager.totalPrice );
+  });
 
   it('can check if footwear is included in the cart', function(){
     shoppingCartManager.addItem(item1);
     var result = shoppingCartManager.isFootwearIncluded();
-    assert.equal(true, result )
-  })
+    assert.equal(true, result );
+  });
 
   it('can calculate the total quantity', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.addItem(item2);
     var result = shoppingCartManager.calculateTotalQuantity();
     assert.equal(2, result);
-  })
+  });
 
   it('can calculate the total price', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.addItem(item2);
-    var result = shoppingCartManager.calculateTotalPrice()
+    var result = shoppingCartManager.calculateTotalPrice();
     assert.equal(141.00, result);
-  })
+  });
 
 });

@@ -18,7 +18,6 @@ ShoppingCartManager.prototype = {
     if (!this.isVoucherUsed){
       switch(voucher){
         case "SMALL":
-          console.log('small')
           this.checkSmallVoucher();
           break;
         case "MEDIUM":
@@ -56,10 +55,10 @@ ShoppingCartManager.prototype = {
   isFootwearIncluded: function(){
     for(var i = 0; i<this.cart.length; i++){
       if (this.cart[i].category.includes('Women’s Footwear') || this.cart[i].category.includes('Men’s Footwear')){
-        return true
+        return true;
       }
     }
-    return false
+    return false;
   },
   calculateTotalQuantity: function(){
     return this.cart.length;
@@ -71,5 +70,5 @@ ShoppingCartManager.prototype = {
     }
     return this.totalPrice;
   }
-}
+};
 module.exports = ShoppingCartManager;

@@ -48,9 +48,6 @@ var MasterBox = React.createClass({
     this.setState({itemManager: itemManager});
     this.setState({shoppingCartManager: shoppingCartManager});
   },
-  checkStock: function(){
-
-  },
   checkVoucher: function(voucher){
     shoppingCartManager.checkVoucher(voucher);
     this.setState({totalPrice: shoppingCartManager.totalPrice})
