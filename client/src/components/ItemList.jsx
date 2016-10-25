@@ -4,7 +4,7 @@ var Item = require('./Item.jsx');
 var ItemList = React.createClass({
   populateItemDOM: function(){
     var itemDOM = this.props.items.map(function(item, index){
-      return(<Item item={item} key={index}/>)
+      return(<Item item={item} key={index}  Maximum call stack size exceeded/> )
     })
     return itemDOM
   },

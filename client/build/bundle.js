@@ -19805,24 +19805,38 @@
 	var ItemList = __webpack_require__(162);
 	var NavMenu = __webpack_require__(160);
 	
+	//Model
+	var Api = __webpack_require__(164);
+	
 	var MasterBox = React.createClass({
 	  displayName: 'MasterBox',
 	
 	  getInitialState: function getInitialState() {
-	    return { items: [] };
+	
+	    return {
+	      items: []
+	    };
+	  },
+	  set: function set(data) {
+	    // console.log('data', data)
+	    this.setState({ items: data });
+	    return;
 	  },
 	  componentDidMount: function componentDidMount() {
+	    var api = new Api();
 	    var url = '/api/items';
-	    var request = new XMLHttpRequest();
-	    request.open('GET', url);
-	    request.onload = function () {
-	      if (request.status == 200) {
-	        var json = request.responseText;
-	        var data = JSON.parse(json);
-	        this.setState({ items: data });
-	      }
-	    }.bind(this);
-	    request.send(null);
+	    api.httpRequest(url, this.set);
+	    //   var url = '/api/items';
+	    //   var request = new XMLHttpRequest();
+	    //   request.open('GET', url);
+	    //   request.onload = function(){
+	    //     if(request.status == 200){
+	    //       var json = request.responseText;
+	    //       var data = JSON.parse(json);
+	    //       this.setState({items: data});
+	    //     }
+	    //   }.bind(this);
+	    //   request.send(null);
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -19951,7 +19965,7 @@
 	
 	  populateItemDOM: function populateItemDOM() {
 	    var itemDOM = this.props.items.map(function (item, index) {
-	      return React.createElement(Item, { item: item, key: index });
+	      return React.createElement(Item, { item: item, key: index, Maximum: true, call: true, stack: true, size: true, exceeded: true });
 	    });
 	    return itemDOM;
 	  },
@@ -19981,6 +19995,9 @@
 	var ItemList = React.createClass({
 	  displayName: "ItemList",
 	
+	  handleClick: function handleClick() {
+	    this.props.addItemToCart(this.props.item);
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      "li",
@@ -20010,12 +20027,43 @@
 	        "Stock: ",
 	        this.props.item.stock,
 	        " available"
+	      ),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleClick },
+	        "Add"
 	      )
 	    );
 	  }
 	});
 	
 	module.exports = ItemList;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	var Api = function Api() {};
+	Api.prototype = {
+	  httpRequest: function httpRequest(url, callback) {
+	    var url = '/api/items';
+	    var request = new XMLHttpRequest();
+	    request.open('GET', url);
+	    request.onload = function () {
+	      if (request.status == 200) {
+	        var json = request.responseText;
+	        var data = JSON.parse(json);
+	        callback(data);
+	        return data;
+	      }
+	    }.bind(this);
+	    request.send(null);
+	  }
+	};
+	
+	module.exports = Api;
 
 /***/ }
 /******/ ]);
