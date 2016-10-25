@@ -1,18 +1,19 @@
 
-var ShoppingCart = function(){
+var ShoppingCartManager = function(){
   // var self = this;
   this.cart = [];
 };
 
-ShoppingCart.prototype = {
+ShoppingCartManager.prototype = {
   addItem: function(item){
-    this.cart.push(item)
-    console.log('added!',this.cart);
+    this.cart.push(item);
   },
   removeItem: function(item){
     var index = this.cart.indexOf(item);
     this.cart.splice(index,1);
     console.log(this.cart);
+  },
+  viewItems: function(){
   },
   totalQuantity: function(){
     return this.cart.length;
@@ -25,4 +26,4 @@ ShoppingCart.prototype = {
     return this.total;
   }
 }
-module.exports = ShoppingCart;
+module.exports = ShoppingCartManager;

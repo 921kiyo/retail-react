@@ -1,4 +1,4 @@
-var Api = function(){}
+var Api = function(){};
 Api.prototype = {
   httpRequest: function(url, callback){
     var url = '/api/items';
