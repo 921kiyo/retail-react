@@ -13,7 +13,7 @@ var ItemList = React.createClass({
   },
   render: function(){
     return(
-      <div>
+      <div className="main-display">
         <ul id="item-ul">
           {this.populateItemDOM()}
         </ul>

@@ -19854,8 +19854,9 @@
 	    this.setState({ itemManager: itemManager });
 	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
-	  viewCart: function viewCart() {},
-	  applyDiscount: function applyDiscount() {},
+	  openCart: function openCart(event) {
+	    shoppingCartManager.openCart(event);
+	  },
 	  checkStock: function checkStock() {},
 	  checkVoucher: function checkVoucher(voucher) {
 	    shoppingCartManager.checkVoucher(voucher);
@@ -19865,9 +19866,13 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(HeaderBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart, totalPrice: this.state.totalPrice, checkVoucher: this.checkVoucher }),
-	      React.createElement(ItemList, { items: this.state.items, addItemToCart: this.addItemToCart }),
-	      React.createElement(NavMenu, { items: this.state.items })
+	      React.createElement(HeaderBox, { shoppingCart: this.state.shoppingCart, removeItemFromCart: this.removeItemFromCart, totalPrice: this.state.totalPrice, checkVoucher: this.checkVoucher, openCart: this.openCart }),
+	      React.createElement(
+	        'div',
+	        { className: 'container' },
+	        React.createElement(ItemList, { items: this.state.items, addItemToCart: this.addItemToCart }),
+	        React.createElement(NavMenu, { items: this.state.items })
+	      )
 	    );
 	  }
 	});
@@ -19895,11 +19900,7 @@
 	      React.createElement(
 	        'div',
 	        { id: 'nav-menu' },
-	        React.createElement(
-	          'span',
-	          { id: 'menu-button' },
-	          React.createElement('i', { 'class': 'fa fa-bars', 'aria-hidden': 'true' })
-	        )
+	        React.createElement('i', { className: 'fa fa-bars', 'aria-hidden': 'true', onClick: this.props.openCart })
 	      ),
 	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
 	    );
@@ -19935,11 +19936,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'button',
-	        { id: 'cart' },
-	        'Cart'
-	      ),
 	      this.populateCartItemDOM(),
 	      React.createElement(
 	        'p',
@@ -20016,7 +20012,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'main-display' },
 	      React.createElement(
 	        'ul',
 	        { id: 'item-ul' },
@@ -20051,7 +20047,6 @@
 	      React.createElement(
 	        "p",
 	        null,
-	        "Name: ",
 	        this.props.item.name
 	      ),
 	      React.createElement(
@@ -20100,45 +20095,36 @@
 	      // TODO: make it dynamic
 	      React.createElement(
 	        "div",
-	        null,
+	        { className: "menu" },
 	        React.createElement(
-	          "div",
-	          { className: "menu" },
-	          React.createElement(
-	            "p",
-	            { className: "select", id: "women-footwear" },
-	            "Women\u2019s footwear"
-	          ),
-	          React.createElement(
-	            "p",
-	            { className: "select", id: "men-footwear" },
-	            "Men\u2019s footwear"
-	          ),
-	          React.createElement(
-	            "p",
-	            { className: "select", id: "women-casualwear" },
-	            "Women\u2019s casualwear"
-	          ),
-	          React.createElement(
-	            "p",
-	            { className: "select", id: "men-casualwear" },
-	            "Men\u2019s casualwear"
-	          ),
-	          React.createElement(
-	            "p",
-	            { className: "select", id: "women-formalwear" },
-	            "Women\u2019s formalwear"
-	          ),
-	          React.createElement(
-	            "p",
-	            { className: "select", id: "men-formalwear" },
-	            "Man\u2019s formalwear"
-	          )
+	          "p",
+	          { className: "select", id: "women-footwear" },
+	          "Women\u2019s footwear"
 	        ),
 	        React.createElement(
-	          "div",
-	          { className: "box main-display", id: "main-display" },
-	          React.createElement("ul", { id: "item-ul" })
+	          "p",
+	          { className: "select", id: "men-footwear" },
+	          "Men\u2019s footwear"
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "select", id: "women-casualwear" },
+	          "Women\u2019s casualwear"
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "select", id: "men-casualwear" },
+	          "Men\u2019s casualwear"
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "select", id: "women-formalwear" },
+	          "Women\u2019s formalwear"
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "select", id: "men-formalwear" },
+	          "Man\u2019s formalwear"
 	        )
 	      )
 	    );
@@ -20246,6 +20232,13 @@
 	      this.totalPrice += this.cart[i].price;
 	    }
 	    return this.totalPrice;
+	  },
+	  openCart: function openCart(event) {
+	    // Function for clicking hamburger icon to open menu
+	    var menu = document.querySelector('.menu');
+	    console.log(menu);
+	    menu.classList.toggle('open');
+	    event.stopPropagation();
 	  }
 	};
 	module.exports = ShoppingCartManager;

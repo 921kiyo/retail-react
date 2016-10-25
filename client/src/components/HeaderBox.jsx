@@ -8,7 +8,7 @@ var HeaderBox = React.createClass({
     return (
       <div className="box header">
         <div id="nav-menu">
-          <span id='menu-button'><i class="fa fa-bars" aria-hidden="true"></i></span>
+          <i className="fa fa-bars" aria-hidden="true" onClick={this.props.openCart}></i>
         </div>
           <ShoppingCart shoppingCart={this.props.shoppingCart} removeItemFromCart={this.props.removeItemFromCart} totalPrice={this.props.totalPrice} checkVoucher={this.props.checkVoucher} />
       </div>

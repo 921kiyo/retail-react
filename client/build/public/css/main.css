@@ -11,6 +11,7 @@ html, body, .container{
 /* Header */
 .header{
   background-color: red;
+  z-index: 2;
 }
 
 /* Menu Div*/
@@ -25,6 +26,7 @@ html, body, .container{
 /* Main Display */
 .main-display{
   background-color: yellow;
+  z-index: 1;
 }
 
 #item-ul{
@@ -41,4 +43,22 @@ li{
 .item-image{
   width:50px;
   height:50px;
+}
+
+/* Hamburger menu */
+
+.menu{
+  display: block;
+  z-index: 3;
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  -webkit-transform:translate(-300px, 0); /*safari*/
+  transition: transform 0.3s ease;
+}
+
+.menu.open{
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+  transition: transform 0.3s ease;
 }

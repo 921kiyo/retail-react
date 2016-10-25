@@ -44,6 +44,13 @@ ShoppingCartManager.prototype = {
       this.totalPrice += this.cart[i].price;
     }
     return this.totalPrice;
+  },
+  openCart: function(event){
+    // Function for clicking hamburger icon to open menu
+    var menu = document.querySelector('.menu');
+    console.log(menu)
+    menu.classList.toggle('open');
+    event.stopPropagation();
   }
 }
 module.exports = ShoppingCartManager;

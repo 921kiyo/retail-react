@@ -50,11 +50,8 @@ var MasterBox = React.createClass({
     this.setState({itemManager: itemManager});
     this.setState({shoppingCartManager: shoppingCartManager})
   },
-  viewCart: function(){
-
-  },
-  applyDiscount: function(){
-
+  openCart: function(event){
+    shoppingCartManager.openCart(event);
   },
   checkStock: function(){
 
@@ -66,9 +63,11 @@ var MasterBox = React.createClass({
   render: function(){
     return (
       <div>
-        <HeaderBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart} totalPrice={this.state.totalPrice} checkVoucher={this.checkVoucher}/>
-        <ItemList items={this.state.items} addItemToCart={this.addItemToCart}/>
-        <NavMenu items={this.state.items}/>
+        <HeaderBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart} totalPrice={this.state.totalPrice} checkVoucher={this.checkVoucher} openCart={this.openCart}/>
+        <div className="container">
+          <ItemList items={this.state.items} addItemToCart={this.addItemToCart}/>
+          <NavMenu items={this.state.items}/>
+        </div>
       </div>
     )
   }
