@@ -12,11 +12,17 @@ var ShoppingCart = React.createClass({
   applyVoucher: function(){
     var voucher = document.getElementById('voucherCode').value;
     this.props.checkVoucher(voucher);
+
     // Pop up an alert message when applied an invalid voucher
-    if(!this.props.checkVoucher(voucher)){
+    if(this.props.checkVoucher(voucher) === false){
       var message = document.getElementById('message');
       message.innerText = "Invalid voucher";
       message.style.color = "#D50A1E";
+    }
+    else{
+      var message = document.getElementById('message');
+      message.innerText = "Voucher applied";
+      message.style.color = "#84c103";
     }
   },
   render: function(){

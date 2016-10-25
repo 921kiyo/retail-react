@@ -18,6 +18,7 @@ ShoppingCartManager.prototype = {
     if (!this.isVoucherUsed){
       switch(voucher){
         case "SMALL":
+          console.log('small')
           this.checkSmallVoucher();
           break;
         case "MEDIUM":
