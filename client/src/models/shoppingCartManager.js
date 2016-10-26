@@ -62,9 +62,6 @@ ShoppingCartManager.prototype = {
     }
     return false;
   },
-  calculateTotalQuantity: function(){
-    return this.cart.length;
-  },
   calculateTotalPrice: function(){
     this.totalPrice = 0;
     for(var i = 0; i<this.cart.length; i++){

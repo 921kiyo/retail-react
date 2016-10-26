@@ -7,10 +7,12 @@ var CartItem = React.createClass({
   render: function(){
     return(
       <li id="cart-item-li">
-        <p>{this.props.item.name}</p>
-        <p>Color: {this.props.item.color}</p>
-        <p>Price: £{this.props.item.price}</p>
-        <button onClick={this.removeHandleClick}>X</button><hr/>
+        <div id="cart-item-div">
+          <p className="cart-item-name">{this.props.item.name}</p>
+          <p className="cart-item-color">{this.props.item.color}</p>
+          <p className="cart-item-price">Price: £{this.props.item.price}</p>
+          <button className="remove-button" onClick={this.removeHandleClick}>X</button>
+        </div><hr/>
       </li>
     )
   }

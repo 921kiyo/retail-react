@@ -73,13 +73,6 @@ describe('Shopping Cart', function(){
     assert.equal(true, result );
   });
 
-  it('can calculate the total quantity', function(){
-    shoppingCartManager.addItem(item1);
-    shoppingCartManager.addItem(item2);
-    var result = shoppingCartManager.calculateTotalQuantity();
-    assert.equal(2, result);
-  });
-
   it('can calculate the total price', function(){
     shoppingCartManager.addItem(item1);
     shoppingCartManager.addItem(item2);

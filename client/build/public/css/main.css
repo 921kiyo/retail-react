@@ -118,12 +118,30 @@ item-hr{
   transition: transform 0.3s ease;
 }
 
-#total-price-info{
-
-}
-
 #cart-item-li{
   list-style-type: none;
 }
 
+#cart-item-div{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
 
+.cart-item-name{
+  width: 70%;
+}
+.cart-item-color{
+  width: 30%;
+}
+.cart-item-price{
+  width: 70%;
+}
+.remove-button{
+  height: 20px;
+  margin-top: 17px;
+}
+
+#voucher-button{
+  margin: 5px;
+}

@@ -35,7 +35,7 @@ var ShoppingCart = React.createClass({
       <div　id="cart-info">
         <div id="total-price-info">
           <h3>Total: £{this.props.totalPrice} </h3>
-          <input id="voucher-code" type="text" placeholder="voucher keywords"/>
+          <input id="voucher-code" type="text" placeholder="Voucher Code"/>
           <button id="voucher-button" onClick={this.applyVoucher}>Apply</button><br/>
           <span id="message"></span>
         </div>

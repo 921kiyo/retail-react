@@ -49,7 +49,6 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var MasterBox = __webpack_require__(159);
-	
 	window.onload = function () {
 	  ReactDOM.render(React.createElement(MasterBox, { url: '/api/items' }), document.getElementById('app'));
 	};
@@ -19914,7 +19913,7 @@
 	          this.props.totalPrice,
 	          ' '
 	        ),
-	        React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'voucher keywords' }),
+	        React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'Voucher Code' }),
 	        React.createElement(
 	          'button',
 	          { id: 'voucher-button', onClick: this.applyVoucher },
@@ -19953,26 +19952,29 @@
 	      "li",
 	      { id: "cart-item-li" },
 	      React.createElement(
-	        "p",
-	        null,
-	        this.props.item.name
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Color: ",
-	        this.props.item.color
-	      ),
-	      React.createElement(
-	        "p",
-	        null,
-	        "Price: \xA3",
-	        this.props.item.price
-	      ),
-	      React.createElement(
-	        "button",
-	        { onClick: this.removeHandleClick },
-	        "X"
+	        "div",
+	        { id: "cart-item-div" },
+	        React.createElement(
+	          "p",
+	          { className: "cart-item-name" },
+	          this.props.item.name
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "cart-item-color" },
+	          this.props.item.color
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "cart-item-price" },
+	          "Price: \xA3",
+	          this.props.item.price
+	        ),
+	        React.createElement(
+	          "button",
+	          { className: "remove-button", onClick: this.removeHandleClick },
+	          "X"
+	        )
 	      ),
 	      React.createElement("hr", null)
 	    );
@@ -20199,9 +20201,6 @@
 	      }
 	    }
 	    return false;
-	  },
-	  calculateTotalQuantity: function calculateTotalQuantity() {
-	    return this.cart.length;
 	  },
 	  calculateTotalPrice: function calculateTotalPrice() {
 	    this.totalPrice = 0;
