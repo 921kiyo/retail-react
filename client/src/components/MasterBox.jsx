@@ -57,13 +57,20 @@ var MasterBox = React.createClass({
     var result = shoppingCartManager.checkVoucher(voucher);
     this.setState({totalPrice: shoppingCartManager.totalPrice.toFixed(2)});
     // Pop up an alert message when applied an invalid voucher
-    if(result === false){
       var message = document.getElementById('message');
+    if(result === false){
       message.innerText = 'Invalid voucher';
       message.style.color = '#D50A1E';
     }
+    else if(result === "zeroTotal"){
+      message.innerText = 'Please add an item';
+      message.style.color = '#D50A1E';
+    }
+    else if(result === "voucherAlreadyUsed"){
+      message.innerText = 'Voucher already used';
+      message.style.color = '#D50A1E';
+    }
     else{
-      var message = document.getElementById('message');
       message.innerText = 'Voucher applied!';
       message.style.color = '#84c103';
     }

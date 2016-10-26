@@ -19813,12 +19813,17 @@
 	    var result = shoppingCartManager.checkVoucher(voucher);
 	    this.setState({ totalPrice: shoppingCartManager.totalPrice.toFixed(2) });
 	    // Pop up an alert message when applied an invalid voucher
+	    var message = document.getElementById('message');
 	    if (result === false) {
-	      var message = document.getElementById('message');
 	      message.innerText = 'Invalid voucher';
 	      message.style.color = '#D50A1E';
+	    } else if (result === "zeroTotal") {
+	      message.innerText = 'Please add an item';
+	      message.style.color = '#D50A1E';
+	    } else if (result === "voucherAlreadyUsed") {
+	      message.innerText = 'Voucher already used';
+	      message.style.color = '#D50A1E';
 	    } else {
-	      var message = document.getElementById('message');
 	      message.innerText = 'Voucher applied!';
 	      message.style.color = '#84c103';
 	    }
@@ -20182,20 +20187,26 @@
 	  },
 	  checkVoucher: function checkVoucher(voucher) {
 	    // You cannot use more than one voucher, regardless of types
-	    if (!this.isVoucherUsed) {
-	      switch (voucher) {
-	        case "SMALL":
-	          this.checkSmallVoucher();
-	          return true;
-	        case "MEDIUM":
-	          this.checkMediumVoucher();
-	          return true;
-	        case "LARGE":
-	          this.checkLargeVoucher();
-	          return true;
-	        default:
-	          return false;
+	    if (this.totalPrice != 0) {
+	      if (!this.isVoucherUsed) {
+	        switch (voucher) {
+	          case "SMALL":
+	            this.checkSmallVoucher();
+	            return true;
+	          case "MEDIUM":
+	            this.checkMediumVoucher();
+	            return true;
+	          case "LARGE":
+	            this.checkLargeVoucher();
+	            return true;
+	          default:
+	            return false;
+	        }
+	      } else {
+	        return "voucherAlreadyUsed";
 	      }
+	    } else {
+	      return "zeroTotal";
 	    }
 	  },
 	  checkSmallVoucher: function checkSmallVoucher() {

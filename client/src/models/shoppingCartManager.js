@@ -17,23 +17,28 @@ ShoppingCartManager.prototype = {
   },
   checkVoucher: function(voucher){
     // You cannot use more than one voucher, regardless of types
-    if (!this.isVoucherUsed){
-      switch(voucher){
-        case "SMALL":
-          this.checkSmallVoucher();
-          return true
-        case "MEDIUM":
-          this.checkMediumVoucher();
-          return true
-        case "LARGE":
-          this.checkLargeVoucher();
-          return true
-        default:
-          return false;
+    if (this.totalPrice != 0){
+      if(!this.isVoucherUsed){
+        switch(voucher){
+          case "SMALL":
+            this.checkSmallVoucher();
+            return true
+          case "MEDIUM":
+            this.checkMediumVoucher();
+            return true
+          case "LARGE":
+            this.checkLargeVoucher();
+            return true
+          default:
+            return false;
+        }
+      }
+      else{
+        return "voucherAlreadyUsed"
       }
     }
     else{
-      return false
+      return "zeroTotal"
     }
   },
   checkSmallVoucher: function(){
