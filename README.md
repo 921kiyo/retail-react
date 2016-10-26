@@ -1,6 +1,7 @@
 # Clothing Retailer
 
 A responsive website for a clothing retailer.
+![Alt text](client/build/public/img/website-image.png?raw=true "Website Image")
 
 ## Project Description
 The retailer sells six different categories of clothes: women’s footwear, men’s footwear, women’s casualwear, men’s casualwear, women’s formalwear and man’s formalwear.
@@ -39,8 +40,9 @@ with discounts applied.
 cart.
 7. As a User I am unable to Out of Stock products to the shopping cart.
 
-## Code Layout & Usage Instructions
+## Code Layout & Supplement Usage Instructions
 
+### Code Layout
 - All the logics/functions can be found in the client/src/models directory as well as unit tests (in client/src/models/specs).
 
 - I used React to render the views. All the view-related components can be found in client/src/components.
@@ -62,7 +64,13 @@ cart.
             |-- CartItem.jsx
 ```
 
+- All the responsible design can be found in the client/build/public/css directory.
+
+### Supplement Usage Instructions
+
 - To view/hide the list of items in the shopping cart, click the cart icon at the top.
+
+- You are not able to click add button if the stock available is 0.
 
 - Voucher code works as follows:
   - There are 3 types of voucher codes.
@@ -71,8 +79,6 @@ cart.
     - "LARGE" for £15.00 off when you have bought at least one footwear item and spent over £75.00
   - You cannot apply any voucher code more than once.
   - If you remove any items from the shopping cart, the voucher is no longer in effect. However, you can apply any discount voucher again.
-
-- All the responsible design can be found in the client/build/public/css directory.
 
 ## Approach and Thinking
 I planned how to structure models and views.

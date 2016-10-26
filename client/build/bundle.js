@@ -20075,7 +20075,7 @@
 	      ),
 	      React.createElement(
 	        "button",
-	        { onClick: this.addHandleClick, disabled: this.checkStock() },
+	        { className: "btn", onClick: this.addHandleClick, disabled: this.checkStock() },
 	        "Add"
 	      ),
 	      React.createElement("hr", { id: "item-hr" })

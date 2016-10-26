@@ -17,7 +17,7 @@ var ItemList = React.createClass({
         <p>Color: {this.props.item.color}</p>
         <p>Price: £{this.props.item.price}</p>
         <p>Stock: {this.props.item.stock} available</p>
-        <button onClick={this.addHandleClick} disabled={this.checkStock()}>Add</button>
+        <button className="btn" onClick={this.addHandleClick} disabled={this.checkStock()}>Add</button>
         <hr id="item-hr"/>
       </li>
     )
