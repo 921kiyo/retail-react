@@ -19905,19 +19905,24 @@
 	      'div',
 	      { id: 'cart-info' },
 	      React.createElement(
-	        'h3',
-	        null,
-	        'Total: \xA3',
-	        this.props.totalPrice,
-	        ' '
+	        'div',
+	        { id: 'total-price-info' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Total: \xA3',
+	          this.props.totalPrice,
+	          ' '
+	        ),
+	        React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'voucher keywords' }),
+	        React.createElement(
+	          'button',
+	          { id: 'voucher-button', onClick: this.applyVoucher },
+	          'Apply'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('span', { id: 'message' })
 	      ),
-	      React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'voucher keywords' }),
-	      React.createElement(
-	        'button',
-	        { id: 'voucher-button', onClick: this.applyVoucher },
-	        'Apply'
-	      ),
-	      React.createElement('span', { id: 'message' }),
 	      React.createElement(
 	        'div',
 	        { className: 'cart-item-list-div' },

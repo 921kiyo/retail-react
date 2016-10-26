@@ -79,9 +79,11 @@ item-hr{
 .select:hover{
   background-color: #4d5056;
 }
-
-.cart-list{
+#cart-info{
   padding: 10px;
+}
+.cart-list{
+  /*margin-left: 10px;*/
   color: white;
   background-color: #3b3c3d;
   display: block;
@@ -99,6 +101,12 @@ item-hr{
   transition: transform 0.3s ease;
 }
 
+#total-price-info{
+
+}
+
 #cart-item-li{
   list-style-type: none;
 }
+
+
