@@ -19803,7 +19803,7 @@
 	  // Updating view info once added or removed an item
 	  updateInfo: function updateInfo() {
 	    shoppingCartManager.calculateTotalPrice();
-	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
+	    this.setState({ totalPrice: shoppingCartManager.totalPrice.toFixed(2) });
 	    this.setState({ itemManager: itemManager });
 	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
