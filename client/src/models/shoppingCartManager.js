@@ -32,6 +32,9 @@ ShoppingCartManager.prototype = {
           return false;
       }
     }
+    else{
+      return false
+    }
   },
   checkSmallVoucher: function(){
     if(this.totalPrice > 5.00){

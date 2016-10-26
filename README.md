@@ -14,13 +14,13 @@ In order to run the application, you need to install [Node.js](http://nodejs.org
 
 Once Node.js is installed, run the following command to get all  the necessary npm packages.
 ```
-cd clothing-retailer
+cd React-retail-master
 npm install
 cd client
 npm install
 ```
 Run the express to start a server.
-In the /clothing-retailer directory, run the following command.
+In the /React-retail-master directory, run the following command.
 ```
 node server.js
 ```
