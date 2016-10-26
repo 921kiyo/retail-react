@@ -13,6 +13,7 @@ var api = new Api();
 var itemManager = new ItemManager();
 var shoppingCartManager = new ShoppingCartManager();
 
+
 var MasterBox = React.createClass({
   getInitialState:function(){
     return {
@@ -41,6 +42,9 @@ var MasterBox = React.createClass({
     itemManager.addStock(item);
     shoppingCartManager.removeItem(item);
     this.updateInfo();
+    // Clearing voucher alert
+    var message = document.getElementById('message');
+    message.innerText = '';
   },
   // Updating view info once added or removed an item
   updateInfo: function(){
@@ -50,8 +54,22 @@ var MasterBox = React.createClass({
     this.setState({shoppingCartManager: shoppingCartManager});
   },
   checkVoucher: function(voucher){
-    shoppingCartManager.checkVoucher(voucher);
-    this.setState({totalPrice: shoppingCartManager.totalPrice})
+    var result = shoppingCartManager.checkVoucher(voucher);
+    this.setState({totalPrice: shoppingCartManager.totalPrice.toFixed(2)});
+    // Pop up an alert message when applied an invalid voucher
+    if(result === false){
+      var message = document.getElementById('message');
+      message.innerText = 'Invalid voucher';
+      message.style.color = '#D50A1E';
+    }
+    else{
+      var message = document.getElementById('message');
+      message.innerText = 'Voucher applied!';
+      message.style.color = '#84c103';
+    }
+    // Clearing voucher alert
+    var voucherInput = document.getElementById('voucher-code');
+    voucherInput.value = '';
   },
   render: function(){
     return (

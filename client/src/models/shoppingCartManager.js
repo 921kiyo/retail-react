@@ -21,21 +21,21 @@ ShoppingCartManager.prototype = {
       switch(voucher){
         case "SMALL":
           this.checkSmallVoucher();
-          break;
+          return true
         case "MEDIUM":
           this.checkMediumVoucher();
-          break;
+          return true
         case "LARGE":
           this.checkLargeVoucher();
-          break;
+          return true
         default:
           return false;
       }
     }
   },
   checkSmallVoucher: function(){
-    if(this.totalPrice > 5){
-      this.totalPrice -= 5;
+    if(this.totalPrice > 5.00){
+      this.totalPrice -= 5.00;
     }
     else{
       this.totalPrice = 0;
@@ -43,14 +43,14 @@ ShoppingCartManager.prototype = {
     this.isVoucherUsed = true;
   },
   checkMediumVoucher: function(){
-    if (this.totalPrice >= 50){
-      this.totalPrice -= 10;
+    if (this.totalPrice >= 50.00){
+      this.totalPrice -= 10.00;
     }
     this.isVoucherUsed = true;
   },
   checkLargeVoucher: function(){
-    if(this.isFootwearIncluded() && this.totalPrice >= 75){
-      this.totalPrice -= 15;
+    if(this.isFootwearIncluded() && this.totalPrice >= 75.00){
+      this.totalPrice -= 15.00;
     }
     this.isVoucherUsed = true;
   },

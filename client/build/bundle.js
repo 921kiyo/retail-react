@@ -19757,8 +19757,8 @@
 	
 	// Importing sub components
 	var HeaderBox = __webpack_require__(160);
-	var ItemList = __webpack_require__(163);
-	var CartBox = __webpack_require__(169);
+	var ItemList = __webpack_require__(161);
+	var CartBox = __webpack_require__(163);
 	
 	// Importing models
 	var Api = __webpack_require__(166);
@@ -19798,6 +19798,9 @@
 	    itemManager.addStock(item);
 	    shoppingCartManager.removeItem(item);
 	    this.updateInfo();
+	    // Clearing voucher alert
+	    var message = document.getElementById('message');
+	    message.innerText = '';
 	  },
 	  // Updating view info once added or removed an item
 	  updateInfo: function updateInfo() {
@@ -19807,8 +19810,21 @@
 	    this.setState({ shoppingCartManager: shoppingCartManager });
 	  },
 	  checkVoucher: function checkVoucher(voucher) {
-	    shoppingCartManager.checkVoucher(voucher);
-	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
+	    var result = shoppingCartManager.checkVoucher(voucher);
+	    this.setState({ totalPrice: shoppingCartManager.totalPrice.toFixed(2) });
+	    // Pop up an alert message when applied an invalid voucher
+	    if (result === false) {
+	      var message = document.getElementById('message');
+	      message.innerText = 'Invalid voucher';
+	      message.style.color = '#D50A1E';
+	    } else {
+	      var message = document.getElementById('message');
+	      message.innerText = 'Voucher applied!';
+	      message.style.color = '#84c103';
+	    }
+	    // Clearing voucher alert
+	    var voucherInput = document.getElementById('voucher-code');
+	    voucherInput.value = '';
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -19867,130 +19883,7 @@
 	'use strict';
 	
 	var React = __webpack_require__(1);
-	var CartItem = __webpack_require__(162);
-	
-	var ShoppingCart = React.createClass({
-	  displayName: 'ShoppingCart',
-	
-	  populateCartItemDOM: function populateCartItemDOM() {
-	    var self = this;
-	    var items = this.props.shoppingCart.map(function (item, index) {
-	      return React.createElement(CartItem, { item: item, key: index, removeItemFromCart: self.props.removeItemFromCart });
-	    });
-	    return items;
-	  },
-	  applyVoucher: function applyVoucher() {
-	    // Clearing input info
-	    var voucherInput = document.getElementById('voucher-code');
-	    voucherInput.value = '';
-	
-	    // Validating the voucher
-	    var voucher = document.getElementById('voucher-code').value;
-	    this.props.checkVoucher(voucher);
-	
-	    // Pop up an alert message when applied an invalid voucher
-	    if (this.props.checkVoucher(voucher) === false) {
-	      var message = document.getElementById('message');
-	      message.innerText = 'Invalid voucher';
-	      message.style.color = '#D50A1E';
-	    } else {
-	      var message = document.getElementById('message');
-	      message.innerText = 'Voucher applied!';
-	      message.style.color = '#84c103';
-	    }
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { id: 'cart-info' },
-	      React.createElement(
-	        'div',
-	        { id: 'total-price-info' },
-	        React.createElement(
-	          'h3',
-	          null,
-	          'Total: \xA3',
-	          this.props.totalPrice,
-	          ' '
-	        ),
-	        React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'Voucher Code' }),
-	        React.createElement(
-	          'button',
-	          { id: 'voucher-button', onClick: this.applyVoucher },
-	          'Apply'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('span', { id: 'message' })
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'cart-item-list-div' },
-	        this.populateCartItemDOM()
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ShoppingCart;
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var React = __webpack_require__(1);
-	
-	var CartItem = React.createClass({
-	  displayName: "CartItem",
-	
-	  removeHandleClick: function removeHandleClick() {
-	    this.props.removeItemFromCart(this.props.item);
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      "li",
-	      { id: "cart-item-li" },
-	      React.createElement(
-	        "div",
-	        { id: "cart-item-div" },
-	        React.createElement(
-	          "p",
-	          { className: "cart-item-name" },
-	          this.props.item.name
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "cart-item-color" },
-	          this.props.item.color
-	        ),
-	        React.createElement(
-	          "p",
-	          { className: "cart-item-price" },
-	          "Price: \xA3",
-	          this.props.item.price
-	        ),
-	        React.createElement(
-	          "button",
-	          { className: "remove-button", onClick: this.removeHandleClick },
-	          "X"
-	        )
-	      ),
-	      React.createElement("hr", null)
-	    );
-	  }
-	});
-	
-	module.exports = CartItem;
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var Item = __webpack_require__(164);
+	var Item = __webpack_require__(162);
 	
 	var ItemList = React.createClass({
 	  displayName: 'ItemList',
@@ -20019,7 +19912,7 @@
 	module.exports = ItemList;
 
 /***/ },
-/* 164 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -20088,7 +19981,138 @@
 	module.exports = ItemList;
 
 /***/ },
-/* 165 */,
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ShoppingCart = __webpack_require__(164);
+	
+	var CartBox = React.createClass({
+	  displayName: 'CartBox',
+	
+	  // Sending information about cart items to ShoppingCart component where DOM in the cart is created
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'cart-list' },
+	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
+	    );
+	  }
+	});
+	
+	module.exports = CartBox;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var CartItem = __webpack_require__(165);
+	
+	var ShoppingCart = React.createClass({
+	  displayName: 'ShoppingCart',
+	
+	  populateCartItemDOM: function populateCartItemDOM() {
+	    var self = this;
+	    var items = this.props.shoppingCart.map(function (item, index) {
+	      return React.createElement(CartItem, { item: item, key: index, removeItemFromCart: self.props.removeItemFromCart });
+	    });
+	    return items;
+	  },
+	  applyVoucher: function applyVoucher() {
+	    // Validating the voucher
+	    var voucherCode = document.getElementById('voucher-code').value;
+	    var result = this.props.checkVoucher(voucherCode);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { id: 'cart-info' },
+	      React.createElement(
+	        'div',
+	        { id: 'total-price-info' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Total: \xA3',
+	          this.props.totalPrice,
+	          ' '
+	        ),
+	        React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'Voucher Code' }),
+	        React.createElement(
+	          'button',
+	          { id: 'voucher-button', onClick: this.applyVoucher },
+	          'Apply'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('span', { id: 'message' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'cart-item-list-div' },
+	        this.populateCartItemDOM()
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ShoppingCart;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var CartItem = React.createClass({
+	  displayName: "CartItem",
+	
+	  removeHandleClick: function removeHandleClick() {
+	    this.props.removeItemFromCart(this.props.item);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "li",
+	      { id: "cart-item-li" },
+	      React.createElement(
+	        "div",
+	        { id: "cart-item-div" },
+	        React.createElement(
+	          "p",
+	          { className: "cart-item-name" },
+	          this.props.item.name
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "cart-item-color" },
+	          this.props.item.color
+	        ),
+	        React.createElement(
+	          "p",
+	          { className: "cart-item-price" },
+	          "Price: \xA3",
+	          this.props.item.price
+	        ),
+	        React.createElement(
+	          "button",
+	          { className: "remove-button", onClick: this.removeHandleClick },
+	          "X"
+	        )
+	      ),
+	      React.createElement("hr", null)
+	    );
+	  }
+	});
+	
+	module.exports = CartItem;
+
+/***/ },
 /* 166 */
 /***/ function(module, exports) {
 
@@ -20162,35 +20186,35 @@
 	      switch (voucher) {
 	        case "SMALL":
 	          this.checkSmallVoucher();
-	          break;
+	          return true;
 	        case "MEDIUM":
 	          this.checkMediumVoucher();
-	          break;
+	          return true;
 	        case "LARGE":
 	          this.checkLargeVoucher();
-	          break;
+	          return true;
 	        default:
 	          return false;
 	      }
 	    }
 	  },
 	  checkSmallVoucher: function checkSmallVoucher() {
-	    if (this.totalPrice > 5) {
-	      this.totalPrice -= 5;
+	    if (this.totalPrice > 5.00) {
+	      this.totalPrice -= 5.00;
 	    } else {
 	      this.totalPrice = 0;
 	    }
 	    this.isVoucherUsed = true;
 	  },
 	  checkMediumVoucher: function checkMediumVoucher() {
-	    if (this.totalPrice >= 50) {
-	      this.totalPrice -= 10;
+	    if (this.totalPrice >= 50.00) {
+	      this.totalPrice -= 10.00;
 	    }
 	    this.isVoucherUsed = true;
 	  },
 	  checkLargeVoucher: function checkLargeVoucher() {
-	    if (this.isFootwearIncluded() && this.totalPrice >= 75) {
-	      this.totalPrice -= 15;
+	    if (this.isFootwearIncluded() && this.totalPrice >= 75.00) {
+	      this.totalPrice -= 15.00;
 	    }
 	    this.isVoucherUsed = true;
 	  },
@@ -20211,30 +20235,6 @@
 	  }
 	};
 	module.exports = ShoppingCartManager;
-
-/***/ },
-/* 169 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var React = __webpack_require__(1);
-	var ShoppingCart = __webpack_require__(161);
-	
-	var CartBox = React.createClass({
-	  displayName: 'CartBox',
-	
-	  // Sending information about cart items to ShoppingCart component where DOM in the cart is created
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'cart-list' },
-	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
-	    );
-	  }
-	});
-	
-	module.exports = CartBox;
 
 /***/ }
 /******/ ]);

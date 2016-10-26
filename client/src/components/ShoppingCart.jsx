@@ -10,25 +10,9 @@ var ShoppingCart = React.createClass({
     return items
   },
   applyVoucher: function(){
-    // Clearing input info
-    var voucherInput = document.getElementById('voucher-code');
-    voucherInput.value = '';
-
     // Validating the voucher
-    var voucher = document.getElementById('voucher-code').value;
-    this.props.checkVoucher(voucher);
-
-    // Pop up an alert message when applied an invalid voucher
-    if(this.props.checkVoucher(voucher) === false){
-      var message = document.getElementById('message');
-      message.innerText = 'Invalid voucher';
-      message.style.color = '#D50A1E';
-    }
-    else{
-      var message = document.getElementById('message');
-      message.innerText = 'Voucher applied!';
-      message.style.color = '#84c103';
-    }
+    var voucherCode = document.getElementById('voucher-code').value;
+    var result = this.props.checkVoucher(voucherCode);
   },
   render: function(){
     return (

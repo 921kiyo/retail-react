@@ -1,6 +1,7 @@
 # Clothing Retailer
 
 A responsive website for a clothing retailer.
+
 ![Alt text](client/build/public/img/website-image.png?raw=true "Website Image")
 
 ## Project Description
