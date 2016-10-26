@@ -6,9 +6,11 @@ var CartItem = React.createClass({
   },
   render: function(){
     return(
-      <li>
+      <li id="cart-item-li">
         <p>{this.props.item.name}</p>
-        <button onClick={this.removeHandleClick}>X</button>
+        <p>Color: {this.props.item.color}</p>
+        <p>Price: £{this.props.item.price}</p>
+        <button onClick={this.removeHandleClick}>X</button><hr/>
       </li>
     )
   }

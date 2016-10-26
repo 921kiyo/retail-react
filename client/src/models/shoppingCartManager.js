@@ -12,6 +12,8 @@ ShoppingCartManager.prototype = {
   removeItem: function(item){
     var index = this.cart.indexOf(item);
     this.cart.splice(index,1);
+    // if you remove any items, a voucher can be applied again
+    this.isVoucherUsed = false;
   },
   checkVoucher: function(voucher){
     // You cannot use more than one voucher, regardless of types

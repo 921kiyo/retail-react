@@ -19788,7 +19788,7 @@
 	  // Retrieving item information from json
 	  componentDidMount: function componentDidMount() {
 	    var url = '/api/items';
-	    api.httpRequest(url, this.set);
+	    var response = api.httpRequest(url, this.set);
 	  },
 	  addItemToCart: function addItemToCart(item) {
 	    itemManager.reduceStock(item);
@@ -19800,6 +19800,7 @@
 	    shoppingCartManager.removeItem(item);
 	    this.updateInfo();
 	  },
+	  // Updating view info once added or removed an item
 	  updateInfo: function updateInfo() {
 	    shoppingCartManager.calculateTotalPrice();
 	    this.setState({ totalPrice: shoppingCartManager.totalPrice });
@@ -19815,6 +19816,7 @@
 	      'div',
 	      null,
 	      React.createElement(HeaderBox, { openCart: this.openCart }),
+	      React.createElement('hr', { id: 'header-hr' }),
 	      React.createElement(
 	        'div',
 	        { className: 'container' },
@@ -19838,9 +19840,9 @@
 	var HeaderBox = React.createClass({
 	  displayName: 'HeaderBox',
 	
-	  // Function for clicking hamburger icon to open menu
+	  // Function for clicking cart icon to view cart (off canvas)
 	  viewCart: function viewCart(event) {
-	    var menu = document.querySelector('.menu');
+	    var menu = document.querySelector('.cart-list');
 	    menu.classList.toggle('open');
 	    event.stopPropagation();
 	  },
@@ -19851,7 +19853,7 @@
 	      React.createElement(
 	        'div',
 	        { id: 'nav-menu' },
-	        React.createElement('i', { className: 'fa fa-shopping-cart fa-5x', 'aria-hidden': 'true', onClick: this.viewCart })
+	        React.createElement('i', { id: 'cart-icon', className: 'fa fa-shopping-cart fa-4x', 'aria-hidden': 'true', onClick: this.viewCart })
 	      )
 	    );
 	  }
@@ -19879,18 +19881,23 @@
 	    return items;
 	  },
 	  applyVoucher: function applyVoucher() {
-	    var voucher = document.getElementById('voucherCode').value;
+	    // Clearing input info
+	    var voucherInput = document.getElementById('voucher-code');
+	    voucherInput.value = '';
+	
+	    // Validating the voucher
+	    var voucher = document.getElementById('voucher-code').value;
 	    this.props.checkVoucher(voucher);
 	
 	    // Pop up an alert message when applied an invalid voucher
 	    if (this.props.checkVoucher(voucher) === false) {
 	      var message = document.getElementById('message');
-	      message.innerText = "Invalid voucher";
-	      message.style.color = "#D50A1E";
+	      message.innerText = 'Invalid voucher';
+	      message.style.color = '#D50A1E';
 	    } else {
 	      var message = document.getElementById('message');
-	      message.innerText = "Voucher applied";
-	      message.style.color = "#84c103";
+	      message.innerText = 'Voucher applied!';
+	      message.style.color = '#84c103';
 	    }
 	  },
 	  render: function render() {
@@ -19898,16 +19905,16 @@
 	      'div',
 	      { id: 'cart-info' },
 	      React.createElement(
-	        'p',
+	        'h3',
 	        null,
-	        'Total: ',
+	        'Total: \xA3',
 	        this.props.totalPrice,
 	        ' '
 	      ),
-	      React.createElement('input', { id: 'voucherCode', type: 'text', placeholder: 'voucher keywords' }),
+	      React.createElement('input', { id: 'voucher-code', type: 'text', placeholder: 'voucher keywords' }),
 	      React.createElement(
 	        'button',
-	        { onClick: this.applyVoucher },
+	        { id: 'voucher-button', onClick: this.applyVoucher },
 	        'Apply'
 	      ),
 	      React.createElement('span', { id: 'message' }),
@@ -19926,30 +19933,43 @@
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
 	
 	var CartItem = React.createClass({
-	  displayName: 'CartItem',
+	  displayName: "CartItem",
 	
 	  removeHandleClick: function removeHandleClick() {
 	    this.props.removeItemFromCart(this.props.item);
 	  },
 	  render: function render() {
 	    return React.createElement(
-	      'li',
-	      null,
+	      "li",
+	      { id: "cart-item-li" },
 	      React.createElement(
-	        'p',
+	        "p",
 	        null,
 	        this.props.item.name
 	      ),
 	      React.createElement(
-	        'button',
+	        "p",
+	        null,
+	        "Color: ",
+	        this.props.item.color
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Price: \xA3",
+	        this.props.item.price
+	      ),
+	      React.createElement(
+	        "button",
 	        { onClick: this.removeHandleClick },
-	        'X'
-	      )
+	        "X"
+	      ),
+	      React.createElement("hr", null)
 	    );
 	  }
 	});
@@ -19968,13 +19988,7 @@
 	var ItemList = React.createClass({
 	  displayName: 'ItemList',
 	
-	  checkStock: function checkStock() {
-	    if (this.props.checkStock) {
-	      console.log('stock available');
-	    } else {
-	      console.log('no stock');
-	    }
-	  },
+	  // Sending item objects to Item component where DOM is created.
 	  populateItemDOM: function populateItemDOM() {
 	    var self = this;
 	    var itemDOM = this.props.items.map(function (item, index) {
@@ -20008,22 +20022,32 @@
 	var ItemList = React.createClass({
 	  displayName: "ItemList",
 	
+	  // Keep enabling add button until the stock hits 0
 	  checkStock: function checkStock() {
 	    return this.props.item.stock == 0;
 	  },
 	  addHandleClick: function addHandleClick() {
-	
 	    this.props.addItemToCart(this.props.item);
 	  },
 	  render: function render() {
 	    return React.createElement(
 	      "li",
-	      null,
+	      { id: "item-li" },
 	      React.createElement("img", { className: "item-image", src: this.props.item.imgUrl }),
 	      React.createElement(
 	        "p",
 	        null,
-	        this.props.item.name
+	        React.createElement(
+	          "b",
+	          null,
+	          this.props.item.name
+	        )
+	      ),
+	      React.createElement(
+	        "p",
+	        null,
+	        "Category: ",
+	        this.props.item.category
 	      ),
 	      React.createElement(
 	        "p",
@@ -20048,7 +20072,8 @@
 	        "button",
 	        { onClick: this.addHandleClick, disabled: this.checkStock() },
 	        "Add"
-	      )
+	      ),
+	      React.createElement("hr", { id: "item-hr" })
 	    );
 	  }
 	});
@@ -20121,6 +20146,8 @@
 	  removeItem: function removeItem(item) {
 	    var index = this.cart.indexOf(item);
 	    this.cart.splice(index, 1);
+	    // if you remove any items, a voucher can be applied again
+	    this.isVoucherUsed = false;
 	  },
 	  checkVoucher: function checkVoucher(voucher) {
 	    // You cannot use more than one voucher, regardless of types
@@ -20193,10 +20220,11 @@
 	var CartBox = React.createClass({
 	  displayName: 'CartBox',
 	
+	  // Sending information about cart items to ShoppingCart component where DOM in the cart is created
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'menu' },
+	      { className: 'cart-list' },
 	      React.createElement(ShoppingCart, { shoppingCart: this.props.shoppingCart, removeItemFromCart: this.props.removeItemFromCart, totalPrice: this.props.totalPrice, checkVoucher: this.props.checkVoucher })
 	    );
 	  }

@@ -30,7 +30,7 @@ var MasterBox = React.createClass({
   // Retrieving item information from json
   componentDidMount: function(){
     var url = '/api/items';
-    api.httpRequest(url, this.set);
+    var response = api.httpRequest(url, this.set);
   },
   addItemToCart: function(item){
     itemManager.reduceStock(item);
@@ -42,6 +42,7 @@ var MasterBox = React.createClass({
     shoppingCartManager.removeItem(item);
     this.updateInfo();
   },
+  // Updating view info once added or removed an item
   updateInfo: function(){
     shoppingCartManager.calculateTotalPrice();
     this.setState({totalPrice: shoppingCartManager.totalPrice});
@@ -55,7 +56,7 @@ var MasterBox = React.createClass({
   render: function(){
     return (
       <div>
-        <HeaderBox openCart={this.openCart} />
+        <HeaderBox openCart={this.openCart} /><hr id="header-hr"/>
         <div className="container">
           <ItemList items={this.state.items} addItemToCart={this.addItemToCart}/>
           <CartBox shoppingCart={this.state.shoppingCart} removeItemFromCart={this.removeItemFromCart} totalPrice={this.state.totalPrice} checkVoucher={this.checkVoucher} />

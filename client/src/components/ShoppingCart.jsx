@@ -10,27 +10,32 @@ var ShoppingCart = React.createClass({
     return items
   },
   applyVoucher: function(){
-    var voucher = document.getElementById('voucherCode').value;
+    // Clearing input info
+    var voucherInput = document.getElementById('voucher-code');
+    voucherInput.value = '';
+
+    // Validating the voucher
+    var voucher = document.getElementById('voucher-code').value;
     this.props.checkVoucher(voucher);
 
     // Pop up an alert message when applied an invalid voucher
     if(this.props.checkVoucher(voucher) === false){
       var message = document.getElementById('message');
-      message.innerText = "Invalid voucher";
-      message.style.color = "#D50A1E";
+      message.innerText = 'Invalid voucher';
+      message.style.color = '#D50A1E';
     }
     else{
       var message = document.getElementById('message');
-      message.innerText = "Voucher applied";
-      message.style.color = "#84c103";
+      message.innerText = 'Voucher applied!';
+      message.style.color = '#84c103';
     }
   },
   render: function(){
     return (
       <div　id="cart-info">
-        <p>Total: {this.props.totalPrice} </p>
-        <input id="voucherCode" type="text" placeholder="voucher keywords"/>
-        <button onClick={this.applyVoucher}>Apply</button>
+        <h3>Total: £{this.props.totalPrice} </h3>
+        <input id="voucher-code" type="text" placeholder="voucher keywords"/>
+        <button id="voucher-button" onClick={this.applyVoucher}>Apply</button>
         <span id="message"></span>
         <div className="cart-item-list-div">
           {this.populateCartItemDOM()}

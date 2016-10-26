@@ -24,7 +24,7 @@
         "color": "Tan",
         "price": 34.00,
         "stock": 12,
-        "imgUrl": "public/img/women-footwear.png"
+        "imgUrl": "public/img/men-footwear.png"
       },
     {
         "id": 4,
@@ -33,7 +33,7 @@
         "color": "Red",
         "price": 19.00,
         "stock": 6,
-        "imgUrl": "public/img/women-footwear.png"
+        "imgUrl": "public/img/men-footwear.png"
       },
     {
         "id": 5,
@@ -42,7 +42,7 @@
         "color": "Blue",
         "price": 19.00,
         "stock": 0,
-        "imgUrl": "public/img/women-casualwear.png"
+        "imgUrl": "public/img/men-footwear.png"
       },
     {
         "id": 6,
@@ -51,7 +51,7 @@
         "color": "Black",
         "price": 167.00,
         "stock": 6,
-        "imgUrl":"public/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-casualwear.png"
       },
     {
         "id": 7,
@@ -60,7 +60,7 @@
         "color": "Medium Red",
         "price": 30.00,
         "stock": 5,
-        "imgUrl":"public/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-casualwear.png"
       },
     {
         "id": 8,
@@ -69,7 +69,7 @@
         "color": "Grey",
         "price": 49.99,
         "stock": 9,
-        "imgUrl":"public/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-casualwear.png"
       },
     {
         "id": 9,
@@ -78,7 +78,7 @@
         "color": "Green",
         "price": 39.99,
         "stock": 3,
-        "imgUrl":"public/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-casualwear.png"
       },
     {
         "id": 10,
@@ -87,42 +87,42 @@
         "color": "Black",
         "price": 167.00,
         "stock": 6,
-        "imgUrl":"public/img/women-formalwear.jpg"
+        "imgUrl":"public/img/women-casualwear.png"
       },
-    {
-        "id": 11,
-        "name": "Sharkskin Waistco",
-        "category": "Men’s Formalwear",
-        "color": "Charcoal",
-        "price": 75.00,
-        "stock": 2,
-        "imgUrl":"public/img/women-formalwear.jpg"
-      },
-    {
-        "id": 12,
-        "name": "Lightweight Patch Pocket Blazer",
-        "category": "Men’s Formalwear",
-        "color": "Deer",
-        "price": 175.50,
-        "stock": 1,
-        "imgUrl":"public/img/women-formalwear.jpg"
-      },
-    {
-        "id": 13,
-        "name": "Bird Print Dress",
-        "category": "Women’s Formalwear",
-        "color": "Black",
-        "price": 270.00,
-        "stock": 10,
-        "imgUrl":"public/img/women-formalwear.jpg"
-      },
-    {
-        "id": 14,
-        "name": "Mid Twist Cut-Out Dress",
-        "category": "Women’s Casualwear",
-        "color": "Pink",
-        "price": 540.00,
-        "stock": 5,
-        "imgUrl":"public/img/women-formalwear.jpg"
-      }
+      {
+          "id": 11,
+          "name": "Bird Print Dress",
+          "category": "Women’s Formalwear",
+          "color": "Black",
+          "price": 270.00,
+          "stock": 10,
+          "imgUrl":"public/img/women-formalwear.jpg"
+        },
+      {
+          "id": 12,
+          "name": "Mid Twist Cut-Out Dress",
+          "category": "Women’s Casualwear",
+          "color": "Pink",
+          "price": 540.00,
+          "stock": 5,
+          "imgUrl":"public/img/women-casualwear.png"
+        },
+        {
+            "id": 13,
+            "name": "Sharkskin Waistco",
+            "category": "Men’s Formalwear",
+            "color": "Charcoal",
+            "price": 75.00,
+            "stock": 2,
+            "imgUrl":"public/img/men-formalwear.jpg"
+          },
+        {
+            "id": 14,
+            "name": "Lightweight Patch Pocket Blazer",
+            "category": "Men’s Formalwear",
+            "color": "Deer",
+            "price": 175.50,
+            "stock": 1,
+            "imgUrl":"public/img/men-formalwear.jpg"
+          }
   ]
