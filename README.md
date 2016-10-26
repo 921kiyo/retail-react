@@ -24,7 +24,7 @@ In the /React-retail-master directory, run the following command.
 ```
 node server.js
 ```
-Open a brower and go to "http://localhost:3000/". You should be able to see the running website.
+Open a browser and go to "http://localhost:3000/". You should be able to see the running website.
 
 ## User Story
 
